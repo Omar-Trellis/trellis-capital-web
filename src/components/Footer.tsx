@@ -1,11 +1,8 @@
-
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
 import { TrellisLogo } from './TrellisLogo';
-
 const Footer = () => {
-  return (
-    <footer className="bg-gray-900 text-white">
+  return <footer className="bg-gray-900 text-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
@@ -63,9 +60,7 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-yellow-400" />
-                <a href="tel:1-800-873-5547" className="text-gray-400 hover:text-yellow-400 transition-colors">
-                  1-800-TRELLIS
-                </a>
+                <a href="tel:1-800-873-5547" className="text-gray-400 hover:text-yellow-400 transition-colors">+1-305-894-6608</a>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-yellow-400" />
@@ -102,8 +97,6 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </footer>
-  );
+    </footer>;
 };
-
 export default Footer;
