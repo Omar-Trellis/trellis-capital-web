@@ -249,9 +249,7 @@ const Investors = () => {
                     <div className="w-32 h-32 bg-gradient-to-br from-yellow-400 to-green-400 rounded-full flex items-center justify-center mx-auto mb-4">
                       <div className="text-black text-3xl font-bold">45%</div>
                     </div>
-                    <Button variant="outline" className="border-yellow-400 text-yellow-400 hover:bg-yellow-400 hover:text-black">
-                      View More Case Studies
-                    </Button>
+                    
                   </div>
                 </div>
               </CardContent>
