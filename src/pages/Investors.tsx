@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { ChevronDown, TrendingUp, Users, Zap, Play, CheckCircle, Star, ArrowRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
@@ -6,6 +5,8 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
+import { AnimatedSection } from '@/components/AnimatedSection';
+import { useParallax } from '@/hooks/useParallax';
 
 const Investors = () => {
   const [formData, setFormData] = useState({
@@ -15,6 +16,8 @@ const Investors = () => {
     investmentRange: '',
     accredited: ''
   });
+
+  const { offset } = useParallax(0.3);
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
@@ -76,11 +79,14 @@ const Investors = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
-      {/* Hero Section */}
+      {/* Hero Section with Parallax */}
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
-        <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-green-400/10 animate-pulse"></div>
+        <div 
+          className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-green-400/10"
+          style={{ transform: `translateY(${offset}px)` }}
+        ></div>
         <div className="max-w-7xl mx-auto relative">
-          <div className="text-center mb-12">
+          <AnimatedSection className="text-center mb-12">
             <div className="inline-flex items-center px-4 py-2 bg-yellow-400/20 backdrop-blur-sm rounded-full mb-6">
               <Zap className="w-4 h-4 text-yellow-400 mr-2" />
               <span className="text-sm font-medium text-yellow-400">Coming Soon: AI Underwriting Platform</span>
@@ -91,9 +97,9 @@ const Investors = () => {
             <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto">
               Join elite investors using our proprietary AI to identify 40%+ ROI opportunities in minutes, not months
             </p>
-          </div>
+          </AnimatedSection>
 
-          <div className="max-w-2xl mx-auto">
+          <AnimatedSection delay={200} className="max-w-2xl mx-auto">
             <Card className="bg-white/10 backdrop-blur-md border-white/20 shadow-2xl">
               <CardContent className="p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
@@ -102,28 +108,30 @@ const Investors = () => {
                       placeholder="Full Name *"
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-12 focus:ring-2 focus:ring-yellow-400"
                       required
                     />
                     <Input
                       type="email"
+                      inputMode="email"
                       placeholder="Email Address *"
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-12 focus:ring-2 focus:ring-yellow-400"
                       required
                     />
                   </div>
                   <Input
                     type="tel"
+                    inputMode="tel"
                     placeholder="Phone Number"
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
+                    className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-12 focus:ring-2 focus:ring-yellow-400"
                   />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Select value={formData.investmentRange} onValueChange={(value) => setFormData({...formData, investmentRange: value})}>
-                      <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                      <SelectTrigger className="bg-white/10 border-white/20 text-white h-12">
                         <SelectValue placeholder="Investment Range" />
                       </SelectTrigger>
                       <SelectContent>
@@ -134,7 +142,7 @@ const Investors = () => {
                       </SelectContent>
                     </Select>
                     <Select value={formData.accredited} onValueChange={(value) => setFormData({...formData, accredited: value})}>
-                      <SelectTrigger className="bg-white/10 border-white/20 text-white">
+                      <SelectTrigger className="bg-white/10 border-white/20 text-white h-12">
                         <SelectValue placeholder="Accredited Investor?" />
                       </SelectTrigger>
                       <SelectContent>
@@ -143,23 +151,23 @@ const Investors = () => {
                       </SelectContent>
                     </Select>
                   </div>
-                  <Button type="submit" className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold py-3 text-lg">
+                  <Button type="submit" className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold py-4 text-lg h-14 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-400/25">
                     Get Exclusive Access
                   </Button>
                 </form>
               </CardContent>
             </Card>
-          </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Problem Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">The Hidden Florida Gold Rush You're Missing</h2>
             <p className="text-xl text-gray-300">While others struggle with uncertainty, elite investors are securing consistent returns</p>
-          </div>
+          </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -181,14 +189,16 @@ const Investors = () => {
                 description: 'Best opportunities sold before reaching public market'
               }
             ].map((item, index) => (
-              <Card key={index} className="bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10 transition-all duration-300 group">
-                <CardContent className="p-8 text-center">
-                  <item.icon className="w-12 h-12 text-yellow-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
-                  <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                  <div className="text-3xl font-bold text-red-400 mb-2">{item.stat}</div>
-                  <p className="text-gray-400">{item.description}</p>
-                </CardContent>
-              </Card>
+              <AnimatedSection key={index} delay={index * 100}>
+                <Card className="bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10 transition-all duration-300 group h-full">
+                  <CardContent className="p-8 text-center">
+                    <item.icon className="w-12 h-12 text-yellow-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
+                    <h3 className="text-xl font-bold mb-2">{item.title}</h3>
+                    <div className="text-3xl font-bold text-red-400 mb-2">{item.stat}</div>
+                    <p className="text-gray-400">{item.description}</p>
+                  </CardContent>
+                </Card>
+              </AnimatedSection>
             ))}
           </div>
         </div>
@@ -197,10 +207,10 @@ const Investors = () => {
       {/* Solution Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-gray-800/50 to-gray-700/50">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Unfair Advantage in Florida Real Estate</h2>
             <p className="text-xl text-gray-300">Proprietary technology meets local expertise</p>
-          </div>
+          </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
               {
@@ -219,15 +229,17 @@ const Investors = () => {
                 description: 'First access to off-market opportunities through our exclusive seller network and partnerships'
               }
             ].map((item, index) => (
-              <Card key={index} className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border-white/20 hover:scale-105 transition-all duration-300 group">
-                <CardContent className="p-8 text-center">
-                  <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-green-400 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform">
-                    <item.icon className="w-8 h-8 text-black" />
-                  </div>
-                  <h3 className="text-xl font-bold mb-4">{item.title}</h3>
-                  <p className="text-gray-300">{item.description}</p>
-                </CardContent>
-              </Card>
+              <AnimatedSection key={index} delay={index * 150}>
+                <Card className="bg-gradient-to-br from-white/10 to-white/5 backdrop-blur-md border-white/20 hover:scale-105 transition-all duration-300 group h-full">
+                  <CardContent className="p-8 text-center">
+                    <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-green-400 rounded-full flex items-center justify-center mx-auto mb-6 group-hover:rotate-12 transition-transform">
+                      <item.icon className="w-8 h-8 text-black" />
+                    </div>
+                    <h3 className="text-xl font-bold mb-4">{item.title}</h3>
+                    <p className="text-gray-300">{item.description}</p>
+                  </CardContent>
+                </Card>
+              </AnimatedSection>
             ))}
           </div>
         </div>
@@ -236,11 +248,11 @@ const Investors = () => {
       {/* Proof Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Real Returns from Real Deals</h2>
             <p className="text-xl text-gray-300">Featured case study from our Miami portfolio</p>
-          </div>
-          <div className="max-w-4xl mx-auto">
+          </AnimatedSection>
+          <AnimatedSection className="max-w-4xl mx-auto">
             <Card className="bg-gradient-to-br from-green-900/30 to-yellow-900/30 backdrop-blur-md border-green-400/20 shadow-2xl">
               <CardContent className="p-8">
                 <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
@@ -279,42 +291,44 @@ const Investors = () => {
                 </div>
               </CardContent>
             </Card>
-          </div>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Team Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-gray-800/50 to-gray-700/50">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Investment Partners</h2>
             <p className="text-xl text-gray-300">Meet the team behind your success</p>
-          </div>
+          </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
-              <Card key={index} className="bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10 transition-all duration-300 group">
-                <CardContent className="p-6 text-center">
-                  <div className="w-24 h-24 bg-gradient-to-br from-yellow-400 to-green-400 rounded-full mx-auto mb-4 flex items-center justify-center">
-                    <span className="text-black text-xl font-bold">{member.name.split(' ').map(n => n[0]).join('')}</span>
-                  </div>
-                  <h3 className="text-xl font-bold mb-1">{member.name}</h3>
-                  <p className="text-yellow-400 font-medium mb-2">{member.role}</p>
-                  <p className="text-sm text-gray-400 mb-3">{member.expertise}</p>
-                  <p className="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity">{member.bio}</p>
-                </CardContent>
-              </Card>
+              <AnimatedSection key={index} delay={index * 100}>
+                <Card className="bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10 transition-all duration-300 group h-full">
+                  <CardContent className="p-6 text-center">
+                    <div className="w-24 h-24 bg-gradient-to-br from-yellow-400 to-green-400 rounded-full mx-auto mb-4 flex items-center justify-center">
+                      <span className="text-black text-xl font-bold">{member.name.split(' ').map(n => n[0]).join('')}</span>
+                    </div>
+                    <h3 className="text-xl font-bold mb-1">{member.name}</h3>
+                    <p className="text-yellow-400 font-medium mb-2">{member.role}</p>
+                    <p className="text-sm text-gray-400 mb-3">{member.expertise}</p>
+                    <p className="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity">{member.bio}</p>
+                  </CardContent>
+                </Card>
+              </AnimatedSection>
             ))}
           </div>
         </div>
       </section>
 
-      {/* Process Section */}
+      {/* Process Section with Sequential Animation */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Start Building Wealth in 4 Simple Steps</h2>
             <p className="text-xl text-gray-300">Your journey to consistent real estate returns</p>
-          </div>
+          </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
               { step: '01', title: 'Join Exclusive List', description: 'Submit your investment criteria and get approved' },
@@ -322,7 +336,7 @@ const Investors = () => {
               { step: '03', title: 'Select Opportunities', description: 'Choose deals that match your investment goals' },
               { step: '04', title: 'We Handle Everything', description: 'Sit back while we execute and deliver returns' }
             ].map((item, index) => (
-              <div key={index} className="text-center group">
+              <AnimatedSection key={index} delay={index * 200} className="text-center group">
                 <div className="w-16 h-16 bg-gradient-to-br from-yellow-400 to-green-400 rounded-full flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform">
                   <span className="text-black font-bold text-lg">{item.step}</span>
                 </div>
@@ -331,7 +345,7 @@ const Investors = () => {
                 {index < 3 && (
                   <ArrowRight className="w-6 h-6 text-yellow-400 mx-auto mt-4 hidden md:block" />
                 )}
-              </div>
+              </AnimatedSection>
             ))}
           </div>
         </div>
@@ -340,53 +354,58 @@ const Investors = () => {
       {/* FAQ Section */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-gradient-to-r from-gray-800/50 to-gray-700/50">
         <div className="max-w-4xl mx-auto">
-          <div className="text-center mb-12">
+          <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
             <p className="text-xl text-gray-300">Everything you need to know about investing with us</p>
-          </div>
-          <Accordion type="single" collapsible className="space-y-4">
-            {faqs.map((faq, index) => (
-              <AccordionItem key={index} value={`item-${index}`} className="bg-white/5 backdrop-blur-sm border-white/10 rounded-lg px-6">
-                <AccordionTrigger className="text-left hover:text-yellow-400 transition-colors">
-                  {faq.question}
-                </AccordionTrigger>
-                <AccordionContent className="text-gray-300">
-                  {faq.answer}
-                </AccordionContent>
-              </AccordionItem>
-            ))}
-          </Accordion>
+          </AnimatedSection>
+          <AnimatedSection>
+            <Accordion type="single" collapsible className="space-y-4">
+              {faqs.map((faq, index) => (
+                <AccordionItem key={index} value={`item-${index}`} className="bg-white/5 backdrop-blur-sm border-white/10 rounded-lg px-6">
+                  <AccordionTrigger className="text-left hover:text-yellow-400 transition-colors">
+                    {faq.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-gray-300">
+                    {faq.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </AnimatedSection>
         </div>
       </section>
 
       {/* Final CTA */}
       <section className="py-16 px-4 sm:px-6 lg:px-8">
         <div className="max-w-4xl mx-auto text-center">
-          <h2 className="text-3xl md:text-4xl font-bold mb-4">Limited Partnership Opportunities Available</h2>
-          <p className="text-xl text-gray-300 mb-8">Join the next generation of successful real estate investors</p>
-          <Card className="bg-white/10 backdrop-blur-md border-white/20 shadow-2xl">
-            <CardContent className="p-8">
-              <form onSubmit={handleSubmit} className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  <Input
-                    placeholder="Full Name *"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
-                    required
-                  />
-                  <Input
-                    type="email"
-                    placeholder="Email Address *"
-                    className="bg-white/10 border-white/20 text-white placeholder:text-gray-400"
-                    required
-                  />
-                </div>
-                <Button type="submit" className="w-full bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold py-3 text-lg">
-                  Secure My Investment Spot
-                </Button>
-                <p className="text-sm text-gray-400">Limited spots available for Q1 2024 opportunities</p>
-              </form>
-            </CardContent>
-          </Card>
+          <AnimatedSection>
+            <h2 className="text-3xl md:text-4xl font-bold mb-4">Limited Partnership Opportunities Available</h2>
+            <p className="text-xl text-gray-300 mb-8">Join the next generation of successful real estate investors</p>
+            <Card className="bg-white/10 backdrop-blur-md border-white/20 shadow-2xl">
+              <CardContent className="p-8">
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <Input
+                      placeholder="Full Name *"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-12 focus:ring-2 focus:ring-yellow-400"
+                      required
+                    />
+                    <Input
+                      type="email"
+                      inputMode="email"
+                      placeholder="Email Address *"
+                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-12 focus:ring-2 focus:ring-yellow-400"
+                      required
+                    />
+                  </div>
+                  <Button type="submit" className="w-full md:w-auto md:px-12 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold py-4 text-lg h-14 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-400/25">
+                    Secure My Investment Spot
+                  </Button>
+                  <p className="text-sm text-gray-400">Limited spots available for Q1 2024 opportunities</p>
+                </form>
+              </CardContent>
+            </Card>
+          </AnimatedSection>
         </div>
       </section>
     </div>
