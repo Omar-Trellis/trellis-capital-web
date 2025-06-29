@@ -272,9 +272,9 @@ const Investors = () => {
                     <div className="w-24 h-24 bg-gradient-to-br from-yellow-400 to-green-400 rounded-full mx-auto mb-4 flex items-center justify-center">
                       <span className="text-black text-xl font-bold">{member.name.split(' ').map(n => n[0]).join('')}</span>
                     </div>
-                    <h3 className="text-xl font-bold mb-1">{member.name}</h3>
+                    <h3 className="text-xl font-bold mb-1 text-slate-50">{member.name}</h3>
                     <p className="text-yellow-400 font-medium mb-2">{member.role}</p>
-                    <p className="text-sm text-gray-500 mb-3">{member.expertise}</p>
+                    <p className="text-sm mb-3 text-gray-300">{member.expertise}</p>
                     <p className="text-sm text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity">{member.bio}</p>
                   </CardContent>
                 </Card>
@@ -312,7 +312,7 @@ const Investors = () => {
                   <span className="text-black font-bold text-lg">{item.step}</span>
                 </div>
                 <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                <p className="text-gray-600">{item.description}</p>
+                <p className="text-gray-300">{item.description}</p>
                 {index < 3 && <ArrowRight className="w-6 h-6 text-yellow-400 mx-auto mt-4 hidden md:block" />}
               </AnimatedSection>)}
           </div>
