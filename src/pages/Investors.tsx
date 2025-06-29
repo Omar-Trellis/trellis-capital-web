@@ -234,12 +234,12 @@ const Investors = () => {
                       </div>
                       <div className="flex justify-between items-center">
                         <span className="text-slate-950">Sale Price:</span>
-                        <span className="text-xl font-bold text-green-400">$615,000</span>
+                        <span className="text-xl font-bold text-[#8afd3d]">$615,000</span>
                       </div>
                       <div className="border-t border-white/20 pt-4">
                         <div className="flex justify-between items-center">
                           <span className="text-lg font-bold">Net ROI:</span>
-                          <span className="text-3xl font-bold text-yellow-400">45%</span>
+                          <span className="text-3xl font-bold text-[#fdfd3d]">45%</span>
                         </div>
                         <div className="text-sm text-Slate-950 mt-2 ">Completed in 6 months</div>
                       </div>
