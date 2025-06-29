@@ -1,6 +1,7 @@
 
 import { Link } from 'react-router-dom';
 import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin } from 'lucide-react';
+import { TrellisLogo } from './TrellisLogo';
 
 const Footer = () => {
   return (
@@ -9,10 +10,8 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="md:col-span-2">
-            <div className="flex items-center space-x-2 mb-4">
-              <div className="w-8 h-8 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-lg flex items-center justify-center">
-                <span className="text-black font-bold text-sm">T</span>
-              </div>
+            <div className="flex items-center space-x-3 mb-4">
+              <TrellisLogo />
               <span className="text-xl font-bold">Trellis Capital Group</span>
             </div>
             <p className="text-gray-400 mb-4 max-w-md">
@@ -20,13 +19,13 @@ const Footer = () => {
               We help investors build wealth and homeowners sell quickly with fair, cash offers.
             </p>
             <div className="flex space-x-4">
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-yellow-600 transition-colors">
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-yellow-600 transition-colors min-w-[44px] min-h-[44px]">
                 <Facebook className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-yellow-600 transition-colors">
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-yellow-600 transition-colors min-w-[44px] min-h-[44px]">
                 <Instagram className="w-5 h-5" />
               </a>
-              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-yellow-600 transition-colors">
+              <a href="#" className="w-10 h-10 bg-gray-800 rounded-full flex items-center justify-center hover:bg-yellow-600 transition-colors min-w-[44px] min-h-[44px]">
                 <Linkedin className="w-5 h-5" />
               </a>
             </div>
@@ -65,11 +64,15 @@ const Footer = () => {
             <ul className="space-y-3">
               <li className="flex items-center space-x-2">
                 <Phone className="w-4 h-4 text-yellow-400" />
-                <span className="text-gray-400">1-800-TRELLIS</span>
+                <a href="tel:1-800-873-5547" className="text-gray-400 hover:text-yellow-400 transition-colors">
+                  1-800-TRELLIS
+                </a>
               </li>
               <li className="flex items-center space-x-2">
                 <Mail className="w-4 h-4 text-yellow-400" />
-                <span className="text-gray-400">info@trellisinvest.com</span>
+                <a href="mailto:info@trellisinvest.com" className="text-gray-400 hover:text-yellow-400 transition-colors">
+                  info@trellisinvest.com
+                </a>
               </li>
               <li className="flex items-start space-x-2">
                 <MapPin className="w-4 h-4 text-yellow-400 mt-1" />

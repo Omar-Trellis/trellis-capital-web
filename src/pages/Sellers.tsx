@@ -1,12 +1,15 @@
 import { useState } from 'react';
 import { Phone, CheckCircle, Clock, DollarSign, Home, Heart, Users, Award, Star } from 'lucide-react';
-import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { useParallax } from '@/hooks/useParallax';
+import { useCountUp } from '@/hooks/useCountUp';
+import { LoadingButton } from '@/components/LoadingButton';
+import { SuccessModal } from '@/components/SuccessModal';
+import { useToast } from '@/hooks/use-toast';
 
 const Sellers = () => {
   const [formData, setFormData] = useState({
@@ -17,13 +20,62 @@ const Sellers = () => {
     timeline: '',
     condition: ''
   });
+  const [loading, setLoading] = useState(false);
+  const [showSuccess, setShowSuccess] = useState(false);
+  const [errors, setErrors] = useState<Record<string, string>>({});
 
   const { offset } = useParallax(0.2);
+  const { toast } = useToast();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  // Counter animations for statistics
+  const homesPurchased = useCountUp({ end: 500, suffix: '+' });
+  const totalInvested = useCountUp({ end: 120, prefix: '$', suffix: 'M+' });
+  const avgDaysToClose = useCountUp({ end: 12 });
+  const customerRating = useCountUp({ end: 4.9, suffix: '/5' });
+
+  const validateForm = () => {
+    const newErrors: Record<string, string> = {};
+    
+    if (!formData.address.trim()) newErrors.address = 'Property address is required';
+    if (!formData.name.trim()) newErrors.name = 'Full name is required';
+    if (!formData.phone.trim()) newErrors.phone = 'Phone number is required';
+    if (!formData.email.trim()) newErrors.email = 'Email address is required';
+    else if (!/\S+@\S+\.\S+/.test(formData.email)) newErrors.email = 'Please enter a valid email address';
+
+    setErrors(newErrors);
+    return Object.keys(newErrors).length === 0;
+  };
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    console.log('Seller form submitted:', formData);
-    // Handle form submission
+    
+    if (!validateForm()) return;
+
+    setLoading(true);
+    
+    try {
+      // Simulate API call
+      await new Promise(resolve => setTimeout(resolve, 2000));
+      
+      // Clear form and show success
+      setFormData({
+        address: '',
+        name: '',
+        phone: '',
+        email: '',
+        timeline: '',
+        condition: ''
+      });
+      setShowSuccess(true);
+    } catch (error) {
+      toast({
+        title: "Error",
+        description: "Something went wrong. Please try again.",
+        variant: "destructive",
+      });
+    } finally {
+      setLoading(false);
+    }
   };
 
   const scenarios = [
@@ -82,28 +134,41 @@ const Sellers = () => {
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
-      {/* Hero Section with Parallax */}
+      {/* Hero Section with Background Image */}
       <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+        {/* Background image with overlay */}
+        <div className="absolute inset-0">
+          <img 
+            src="https://images.unsplash.com/photo-1570129477492-45c003edd2be?ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&auto=format&fit=crop&w=2070&q=80"
+            alt="Beautiful Florida home"
+            className="w-full h-full object-cover"
+            loading="lazy"
+          />
+          <div className="absolute inset-0 bg-gradient-to-r from-blue-900/80 via-blue-800/60 to-green-800/80"></div>
+          <div className="absolute inset-0 bg-gradient-to-b from-transparent via-blue-50/20 to-blue-50"></div>
+        </div>
+        
         <div 
           className="absolute inset-0 bg-gradient-to-r from-blue-100/30 to-green-100/30"
           style={{ transform: `translateY(${offset}px)` }}
         ></div>
+        
         <div className="max-w-7xl mx-auto relative">
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <AnimatedSection>
-              <h1 className="text-4xl md:text-5xl font-bold text-gray-900 mb-6">
+              <h1 className="text-4xl md:text-5xl font-bold text-white mb-6">
                 Get a Fair Cash Offer for Your Florida Home in 24 Hours
               </h1>
-              <p className="text-xl text-gray-600 mb-8">
+              <p className="text-xl text-blue-100 mb-8">
                 No repairs needed. No agent fees. Close in as little as 7 days.
               </p>
               <div className="flex items-center space-x-4 mb-8">
-                <Phone className="w-6 h-6 text-green-600" />
+                <Phone className="w-6 h-6 text-green-400" />
                 <div>
-                  <p className="text-sm text-gray-600">Call Now for Immediate Help</p>
+                  <p className="text-sm text-blue-200">Call Now for Immediate Help</p>
                   <a 
                     href="tel:1-800-873-5547" 
-                    className="text-2xl font-bold text-green-600 hover:text-green-700 transition-colors"
+                    className="text-2xl font-bold text-green-400 hover:text-green-300 transition-colors"
                   >
                     1-800-TRELLIS
                   </a>
@@ -111,59 +176,71 @@ const Sellers = () => {
               </div>
               <div className="flex flex-wrap gap-4">
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                  <span className="text-sm text-gray-700">A+ BBB Rating</span>
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-sm text-blue-100">A+ BBB Rating</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                  <span className="text-sm text-gray-700">Licensed & Insured</span>
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-sm text-blue-100">Licensed & Insured</span>
                 </div>
                 <div className="flex items-center space-x-2">
-                  <CheckCircle className="w-5 h-5 text-green-600" />
-                  <span className="text-sm text-gray-700">Local Florida Company</span>
+                  <CheckCircle className="w-5 h-5 text-green-400" />
+                  <span className="text-sm text-blue-100">Local Florida Company</span>
                 </div>
               </div>
             </AnimatedSection>
             
             <AnimatedSection delay={200}>
-              <Card className="bg-white shadow-2xl border-0">
+              <Card className="bg-white/95 backdrop-blur-sm shadow-2xl border-0">
                 <CardContent className="p-8">
                   <h3 className="text-2xl font-bold text-gray-900 mb-6 text-center">Get Your Cash Offer</h3>
                   <form onSubmit={handleSubmit} className="space-y-4">
-                    <Input
-                      placeholder="Property Address *"
-                      value={formData.address}
-                      onChange={(e) => setFormData({...formData, address: e.target.value})}
-                      className="border-gray-300 focus:border-green-500 h-12 focus:ring-2 focus:ring-green-400"
-                      required
-                    />
-                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div>
                       <Input
-                        placeholder="Full Name *"
-                        value={formData.name}
-                        onChange={(e) => setFormData({...formData, name: e.target.value})}
-                        className="border-gray-300 focus:border-green-500 h-12 focus:ring-2 focus:ring-green-400"
+                        placeholder="Property Address *"
+                        value={formData.address}
+                        onChange={(e) => setFormData({...formData, address: e.target.value})}
+                        className={`border-gray-300 focus:border-green-500 h-12 focus:ring-2 focus:ring-green-400 focus:shadow-lg focus:shadow-green-400/20 transition-all ${errors.address ? 'border-red-500' : ''}`}
                         required
                       />
-                      <Input
-                        type="tel"
-                        inputMode="tel"
-                        placeholder="Phone Number *"
-                        value={formData.phone}
-                        onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                        className="border-gray-300 focus:border-green-500 h-12 focus:ring-2 focus:ring-green-400"
-                        required
-                      />
+                      {errors.address && <p className="text-red-500 text-sm mt-1">{errors.address}</p>}
                     </div>
-                    <Input
-                      type="email"
-                      inputMode="email"
-                      placeholder="Email Address *"
-                      value={formData.email}
-                      onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="border-gray-300 focus:border-green-500 h-12 focus:ring-2 focus:ring-green-400"
-                      required
-                    />
+                    <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
+                      <div>
+                        <Input
+                          placeholder="Full Name *"
+                          value={formData.name}
+                          onChange={(e) => setFormData({...formData, name: e.target.value})}
+                          className={`border-gray-300 focus:border-green-500 h-12 focus:ring-2 focus:ring-green-400 focus:shadow-lg focus:shadow-green-400/20 transition-all ${errors.name ? 'border-red-500' : ''}`}
+                          required
+                        />
+                        {errors.name && <p className="text-red-500 text-sm mt-1">{errors.name}</p>}
+                      </div>
+                      <div>
+                        <Input
+                          type="tel"
+                          inputMode="tel"
+                          placeholder="Phone Number *"
+                          value={formData.phone}
+                          onChange={(e) => setFormData({...formData, phone: e.target.value})}
+                          className={`border-gray-300 focus:border-green-500 h-12 focus:ring-2 focus:ring-green-400 focus:shadow-lg focus:shadow-green-400/20 transition-all ${errors.phone ? 'border-red-500' : ''}`}
+                          required
+                        />
+                        {errors.phone && <p className="text-red-500 text-sm mt-1">{errors.phone}</p>}
+                      </div>
+                    </div>
+                    <div>
+                      <Input
+                        type="email"
+                        inputMode="email"
+                        placeholder="Email Address *"
+                        value={formData.email}
+                        onChange={(e) => setFormData({...formData, email: e.target.value})}
+                        className={`border-gray-300 focus:border-green-500 h-12 focus:ring-2 focus:ring-green-400 focus:shadow-lg focus:shadow-green-400/20 transition-all ${errors.email ? 'border-red-500' : ''}`}
+                        required
+                      />
+                      {errors.email && <p className="text-red-500 text-sm mt-1">{errors.email}</p>}
+                    </div>
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <Select value={formData.timeline} onValueChange={(value) => setFormData({...formData, timeline: value})}>
                         <SelectTrigger className="border-gray-300 focus:border-green-500 h-12">
@@ -188,9 +265,13 @@ const Sellers = () => {
                         </SelectContent>
                       </Select>
                     </div>
-                    <Button type="submit" className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 text-lg h-14 transition-all duration-300 hover:shadow-xl hover:shadow-green-400/25">
+                    <LoadingButton 
+                      type="submit" 
+                      loading={loading}
+                      className="w-full bg-green-600 hover:bg-green-700 text-white font-bold py-4 text-lg h-14 transition-all duration-300 hover:shadow-xl hover:shadow-green-400/25"
+                    >
                       Get My Cash Offer
-                    </Button>
+                    </LoadingButton>
                     <p className="text-xs text-gray-500 text-center">No obligation. Your information is secure.</p>
                   </form>
                 </CardContent>
@@ -323,7 +404,7 @@ const Sellers = () => {
         </div>
       </section>
 
-      {/* Social Proof */}
+      {/* Social Proof with Animated Counters */}
       <section className="py-16 px-4 sm:px-6 lg:px-8 bg-white">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection className="text-center mb-12">
@@ -332,17 +413,22 @@ const Sellers = () => {
           </AnimatedSection>
           <AnimatedSection>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-              {[
-                { number: '500+', label: 'Homes Purchased' },
-                { number: '$120M+', label: 'Total Invested' },
-                { number: '12', label: 'Average Days to Close' },
-                { number: '4.9/5', label: 'Customer Rating' }
-              ].map((stat, index) => (
-                <div key={index} className="text-center">
-                  <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">{stat.number}</div>
-                  <div className="text-gray-600">{stat.label}</div>
-                </div>
-              ))}
+              <div ref={homesPurchased.elementRef} className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">{homesPurchased.displayValue}</div>
+                <div className="text-gray-600">Homes Purchased</div>
+              </div>
+              <div ref={totalInvested.elementRef} className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">{totalInvested.displayValue}</div>
+                <div className="text-gray-600">Total Invested</div>
+              </div>
+              <div ref={avgDaysToClose.elementRef} className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">{avgDaysToClose.displayValue}</div>
+                <div className="text-gray-600">Average Days to Close</div>
+              </div>
+              <div ref={customerRating.elementRef} className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">{customerRating.displayValue}</div>
+                <div className="text-gray-600">Customer Rating</div>
+              </div>
             </div>
           </AnimatedSection>
         </div>
@@ -432,6 +518,20 @@ const Sellers = () => {
           </AnimatedSection>
         </div>
       </section>
+
+      {/* Success Modal */}
+      <SuccessModal
+        isOpen={showSuccess}
+        onClose={() => setShowSuccess(false)}
+        title="Thank You!"
+        message="We've received your information and will contact you within 24 hours with a fair cash offer."
+        nextSteps={[
+          "We'll review your property details",
+          "Our team will prepare a competitive cash offer",
+          "You'll receive a call within 24 hours",
+          "We can close in as little as 7 days"
+        ]}
+      />
     </div>
   );
 };

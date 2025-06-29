@@ -130,6 +130,16 @@ export default {
 						transform: 'translateX(0)'
 					}
 				},
+				'scale-in': {
+					'0%': {
+						opacity: '0',
+						transform: 'scale(0.95)'
+					},
+					'100%': {
+						opacity: '1',
+						transform: 'scale(1)'
+					}
+				},
 				'pulse-slow': {
 					'0%, 100%': {
 						opacity: '1'
@@ -154,6 +164,7 @@ export default {
 				'fade-up': 'fade-up 0.6s ease-out',
 				'slide-left': 'slide-left 0.6s ease-out',
 				'slide-right': 'slide-right 0.6s ease-out',
+				'scale-in': 'scale-in 0.3s ease-out',
 				'pulse-slow': 'pulse-slow 3s ease-in-out infinite',
 				'glow': 'glow 2s ease-in-out infinite'
 			}
