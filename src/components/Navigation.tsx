@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
@@ -21,17 +20,16 @@ const Navigation = () => {
   ];
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/5 backdrop-blur-xl border-b border-white/10 shadow-2xl">
+    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-2xl">
       <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
       <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/5 to-transparent"></div>
       <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 via-transparent to-green-400/5"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="flex justify-between items-center h-16">
+        <div className="flex justify-between items-center h-20">
           {/* Logo */}
-          <Link to="/investors" className="flex items-center space-x-3 text-xl font-bold text-gray-900 hover:text-yellow-600 transition-colors duration-300 group">
-            <TrellisLogo className="group-hover:scale-110 transition-transform duration-300" />
-            <span>Trellis Capital Group</span>
+          <Link to="/investors" className="flex items-center text-xl font-bold text-gray-900 hover:text-yellow-600 transition-colors duration-300 group">
+            <TrellisLogo variant="light" size="3xl" className="group-hover:scale-110 transition-transform duration-300" />
           </Link>
 
           {/* Desktop Navigation */}
@@ -40,10 +38,10 @@ const Navigation = () => {
               <Link
                 key={item.path}
                 to={item.path}
-                className={`relative px-4 py-2 text-sm font-medium transition-all duration-300 rounded-lg group ${
+                className={`relative px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-lg group ${
                   isActive(item.path) 
-                    ? 'text-yellow-600 bg-yellow-400/10 shadow-lg shadow-yellow-400/20' 
-                    : 'text-gray-700 hover:text-yellow-600 hover:bg-white/10'
+                    ? 'text-yellow-600 bg-yellow-400/20 shadow-lg shadow-yellow-400/20' 
+                    : 'text-gray-900 hover:text-yellow-600 hover:bg-gray-100/50'
                 }`}
               >
                 <span className="relative z-10">{item.label}</span>
@@ -62,7 +60,7 @@ const Navigation = () => {
           <div className="md:hidden">
             <button
               onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-gray-700 hover:bg-white/10 transition-all duration-300 hover:text-yellow-600 min-w-[44px] min-h-[44px] flex items-center justify-center"
+              className="p-2 rounded-lg text-gray-900 hover:bg-white/10 transition-all duration-300 hover:text-yellow-600 min-w-[44px] min-h-[44px] flex items-center justify-center drop-shadow-sm"
             >
               {isOpen ? <X size={24} /> : <Menu size={24} />}
             </button>
@@ -71,12 +69,12 @@ const Navigation = () => {
 
         {/* Mobile Navigation with backdrop */}
         {isOpen && (
-          <div className="md:hidden fixed inset-0 top-16 z-40">
+          <div className="md:hidden fixed inset-0 top-20 z-40">
             <div 
               className="absolute inset-0 bg-black/20 backdrop-blur-sm"
               onClick={() => setIsOpen(false)}
             />
-            <div className={`absolute top-0 right-0 w-64 h-full bg-white/15 backdrop-blur-xl border-l border-white/20 shadow-2xl transition-all duration-500 ease-out ${
+            <div className={`absolute top-0 right-0 w-64 h-full bg-white/95 backdrop-blur-xl border-l border-gray-200 shadow-2xl transition-all duration-500 ease-out ${
               isOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
             }`}>
               <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-white/5"></div>
@@ -86,10 +84,10 @@ const Navigation = () => {
                     key={item.path}
                     to={item.path}
                     onClick={handleLinkClick}
-                    className={`block px-4 py-4 text-base font-medium rounded-xl transition-all duration-300 min-h-[44px] ${
+                    className={`block px-4 py-4 text-base font-semibold rounded-xl transition-all duration-300 min-h-[44px] ${
                       isActive(item.path)
                         ? 'text-yellow-600 bg-yellow-400/20 border border-yellow-400/30 shadow-lg'
-                        : 'text-gray-700 hover:text-yellow-600 hover:bg-white/10'
+                        : 'text-gray-900 hover:text-yellow-600 hover:bg-gray-100/50'
                     }`}
                     style={{ 
                       transitionDelay: isOpen ? `${index * 100}ms` : '0ms',

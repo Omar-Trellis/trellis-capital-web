@@ -10,11 +10,10 @@ const Footer = () => {
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           {/* Company Info */}
           <div className="md:col-span-2">
-            <div className="flex items-center space-x-3 mb-4">
-              <TrellisLogo />
-              <span className="text-xl font-bold">Trellis Capital Group</span>
+            <div className="flex items-center mb-4">
+              <TrellisLogo variant="dark" size="2xl" />
             </div>
-            <p className="text-gray-400 mb-4 max-w-md">
+            <p className="text-gray-300 mb-4 max-w-md">
               Florida's leading fix and flip real estate investment company. 
               We help investors build wealth and homeowners sell quickly with fair, cash offers.
             </p>
@@ -36,17 +35,17 @@ const Footer = () => {
             <h3 className="text-lg font-semibold mb-4">Quick Links</h3>
             <ul className="space-y-2">
               <li>
-                <Link to="/investors" className="text-gray-400 hover:text-yellow-400 transition-colors">
+                <Link to="/investors" className="text-gray-300 hover:text-yellow-400 transition-colors">
                   For Investors
                 </Link>
               </li>
               <li>
-                <Link to="/sellers" className="text-gray-400 hover:text-yellow-400 transition-colors">
+                <Link to="/sellers" className="text-gray-300 hover:text-yellow-400 transition-colors">
                   For Sellers
                 </Link>
               </li>
               <li>
-                <Link to="/contact" className="text-gray-400 hover:text-yellow-400 transition-colors">
+                <Link to="/contact" className="text-gray-300 hover:text-yellow-400 transition-colors">
                   Contact Us
                 </Link>
               </li>
@@ -76,7 +75,7 @@ const Footer = () => {
               </li>
               <li className="flex items-start space-x-2">
                 <MapPin className="w-4 h-4 text-yellow-400 mt-1" />
-                <span className="text-gray-400">
+                <span className="text-gray-300">
                   123 Business Blvd, Suite 100<br />
                   Miami, FL 33101
                 </span>
@@ -88,7 +87,7 @@ const Footer = () => {
         {/* Bottom Bar */}
         <div className="border-t border-gray-800 mt-8 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-gray-400 text-sm">
-            © 2024 Trellis Capital Group. All rights reserved.
+            © 2025 Trellis Capital Group. All rights reserved.
           </p>
           <div className="flex space-x-6 mt-4 md:mt-0">
             <a href="#" className="text-gray-400 hover:text-yellow-400 text-sm transition-colors">

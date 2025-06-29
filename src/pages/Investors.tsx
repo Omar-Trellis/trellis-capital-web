@@ -94,7 +94,7 @@ const Investors = () => {
             <h1 className="text-4xl md:text-6xl font-bold mb-6 bg-gradient-to-r from-white via-yellow-200 to-green-200 bg-clip-text text-transparent">
               Get Early Access to Florida's Most Profitable Fix & Flip Deals
             </h1>
-            <p className="text-xl md:text-2xl text-gray-300 mb-8 max-w-4xl mx-auto">
+            <p className="text-xl md:text-2xl text-gray-100 mb-8 max-w-4xl mx-auto">
               Join elite investors using our proprietary AI to identify 40%+ ROI opportunities in minutes, not months
             </p>
           </AnimatedSection>
@@ -108,7 +108,7 @@ const Investors = () => {
                       placeholder="Full Name *"
                       value={formData.name}
                       onChange={(e) => setFormData({...formData, name: e.target.value})}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-12 focus:ring-2 focus:ring-yellow-400"
+                      className="bg-white/15 border-white/20 text-white placeholder:text-gray-300 h-12 focus:ring-2 focus:ring-yellow-400 focus:bg-white/20"
                       required
                     />
                     <Input
@@ -117,7 +117,7 @@ const Investors = () => {
                       placeholder="Email Address *"
                       value={formData.email}
                       onChange={(e) => setFormData({...formData, email: e.target.value})}
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-12 focus:ring-2 focus:ring-yellow-400"
+                      className="bg-white/15 border-white/20 text-white placeholder:text-gray-300 h-12 focus:ring-2 focus:ring-yellow-400 focus:bg-white/20"
                       required
                     />
                   </div>
@@ -127,11 +127,11 @@ const Investors = () => {
                     placeholder="Phone Number"
                     value={formData.phone}
                     onChange={(e) => setFormData({...formData, phone: e.target.value})}
-                    className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-12 focus:ring-2 focus:ring-yellow-400"
+                    className="bg-white/15 border-white/20 text-white placeholder:text-gray-300 h-12 focus:ring-2 focus:ring-yellow-400 focus:bg-white/20"
                   />
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Select value={formData.investmentRange} onValueChange={(value) => setFormData({...formData, investmentRange: value})}>
-                      <SelectTrigger className="bg-white/10 border-white/20 text-white h-12">
+                      <SelectTrigger className="bg-white/15 border-white/20 text-white h-12 focus:ring-2 focus:ring-yellow-400 focus:bg-white/20">
                         <SelectValue placeholder="Investment Range" />
                       </SelectTrigger>
                       <SelectContent>
@@ -142,7 +142,7 @@ const Investors = () => {
                       </SelectContent>
                     </Select>
                     <Select value={formData.accredited} onValueChange={(value) => setFormData({...formData, accredited: value})}>
-                      <SelectTrigger className="bg-white/10 border-white/20 text-white h-12">
+                      <SelectTrigger className="bg-white/15 border-white/20 text-white h-12 focus:ring-2 focus:ring-yellow-400 focus:bg-white/20">
                         <SelectValue placeholder="Accredited Investor?" />
                       </SelectTrigger>
                       <SelectContent>
@@ -166,7 +166,7 @@ const Investors = () => {
         <div className="max-w-7xl mx-auto">
           <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">The Hidden Florida Gold Rush You're Missing</h2>
-            <p className="text-xl text-gray-300">While others struggle with uncertainty, elite investors are securing consistent returns</p>
+            <p className="text-xl text-gray-200">While others struggle with uncertainty, elite investors are securing consistent returns</p>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -195,7 +195,7 @@ const Investors = () => {
                     <item.icon className="w-12 h-12 text-yellow-400 mx-auto mb-4 group-hover:scale-110 transition-transform" />
                     <h3 className="text-xl font-bold mb-2">{item.title}</h3>
                     <div className="text-3xl font-bold text-red-400 mb-2">{item.stat}</div>
-                    <p className="text-gray-400">{item.description}</p>
+                    <p className="text-gray-600">{item.description}</p>
                   </CardContent>
                 </Card>
               </AnimatedSection>
@@ -209,7 +209,7 @@ const Investors = () => {
         <div className="max-w-7xl mx-auto">
           <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Unfair Advantage in Florida Real Estate</h2>
-            <p className="text-xl text-gray-300">Proprietary technology meets local expertise</p>
+            <p className="text-xl text-gray-200">Proprietary technology meets local expertise</p>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {[
@@ -236,7 +236,7 @@ const Investors = () => {
                       <item.icon className="w-8 h-8 text-black" />
                     </div>
                     <h3 className="text-xl font-bold mb-4">{item.title}</h3>
-                    <p className="text-gray-300">{item.description}</p>
+                    <p className="text-gray-700">{item.description}</p>
                   </CardContent>
                 </Card>
               </AnimatedSection>
@@ -250,7 +250,7 @@ const Investors = () => {
         <div className="max-w-7xl mx-auto">
           <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Real Returns from Real Deals</h2>
-            <p className="text-xl text-gray-300">Featured case study from our Miami portfolio</p>
+            <p className="text-xl text-gray-200">Featured case study from our Miami portfolio</p>
           </AnimatedSection>
           <AnimatedSection className="max-w-4xl mx-auto">
             <Card className="bg-gradient-to-br from-green-900/30 to-yellow-900/30 backdrop-blur-md border-green-400/20 shadow-2xl">
@@ -260,15 +260,15 @@ const Investors = () => {
                     <h3 className="text-2xl font-bold mb-4">Miami Beach Renovation</h3>
                     <div className="space-y-4">
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-300">Purchase Price:</span>
+                        <span className="text-gray-200">Purchase Price:</span>
                         <span className="text-xl font-bold">$335,000</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-300">Renovation Cost:</span>
+                        <span className="text-gray-200">Renovation Cost:</span>
                         <span className="text-xl font-bold">$65,000</span>
                       </div>
                       <div className="flex justify-between items-center">
-                        <span className="text-gray-300">Sale Price:</span>
+                        <span className="text-gray-200">Sale Price:</span>
                         <span className="text-xl font-bold text-green-400">$615,000</span>
                       </div>
                       <div className="border-t border-white/20 pt-4">
@@ -276,7 +276,7 @@ const Investors = () => {
                           <span className="text-lg font-bold">Net ROI:</span>
                           <span className="text-3xl font-bold text-yellow-400">45%</span>
                         </div>
-                        <div className="text-sm text-gray-400 mt-2">Completed in 6 months</div>
+                        <div className="text-sm text-gray-300 mt-2">Completed in 6 months</div>
                       </div>
                     </div>
                   </div>
@@ -300,7 +300,7 @@ const Investors = () => {
         <div className="max-w-7xl mx-auto">
           <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Investment Partners</h2>
-            <p className="text-xl text-gray-300">Meet the team behind your success</p>
+            <p className="text-xl text-gray-200">Meet the team behind your success</p>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
             {teamMembers.map((member, index) => (
@@ -312,8 +312,8 @@ const Investors = () => {
                     </div>
                     <h3 className="text-xl font-bold mb-1">{member.name}</h3>
                     <p className="text-yellow-400 font-medium mb-2">{member.role}</p>
-                    <p className="text-sm text-gray-400 mb-3">{member.expertise}</p>
-                    <p className="text-sm text-gray-300 opacity-0 group-hover:opacity-100 transition-opacity">{member.bio}</p>
+                    <p className="text-sm text-gray-500 mb-3">{member.expertise}</p>
+                    <p className="text-sm text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity">{member.bio}</p>
                   </CardContent>
                 </Card>
               </AnimatedSection>
@@ -327,7 +327,7 @@ const Investors = () => {
         <div className="max-w-7xl mx-auto">
           <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Start Building Wealth in 4 Simple Steps</h2>
-            <p className="text-xl text-gray-300">Your journey to consistent real estate returns</p>
+            <p className="text-xl text-gray-200">Your journey to consistent real estate returns</p>
           </AnimatedSection>
           <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
             {[
@@ -341,7 +341,7 @@ const Investors = () => {
                   <span className="text-black font-bold text-lg">{item.step}</span>
                 </div>
                 <h3 className="text-xl font-bold mb-2">{item.title}</h3>
-                <p className="text-gray-400">{item.description}</p>
+                <p className="text-gray-600">{item.description}</p>
                 {index < 3 && (
                   <ArrowRight className="w-6 h-6 text-yellow-400 mx-auto mt-4 hidden md:block" />
                 )}
@@ -356,7 +356,7 @@ const Investors = () => {
         <div className="max-w-4xl mx-auto">
           <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Frequently Asked Questions</h2>
-            <p className="text-xl text-gray-300">Everything you need to know about investing with us</p>
+            <p className="text-xl text-gray-200">Everything you need to know about investing with us</p>
           </AnimatedSection>
           <AnimatedSection>
             <Accordion type="single" collapsible className="space-y-4">
@@ -365,7 +365,7 @@ const Investors = () => {
                   <AccordionTrigger className="text-left hover:text-yellow-400 transition-colors">
                     {faq.question}
                   </AccordionTrigger>
-                  <AccordionContent className="text-gray-300">
+                  <AccordionContent className="text-gray-200">
                     {faq.answer}
                   </AccordionContent>
                 </AccordionItem>
@@ -380,28 +380,28 @@ const Investors = () => {
         <div className="max-w-4xl mx-auto text-center">
           <AnimatedSection>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Limited Partnership Opportunities Available</h2>
-            <p className="text-xl text-gray-300 mb-8">Join the next generation of successful real estate investors</p>
+            <p className="text-xl text-gray-200 mb-8">Join the next generation of successful real estate investors</p>
             <Card className="bg-white/10 backdrop-blur-md border-white/20 shadow-2xl">
               <CardContent className="p-8">
                 <form onSubmit={handleSubmit} className="space-y-6">
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <Input
                       placeholder="Full Name *"
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-12 focus:ring-2 focus:ring-yellow-400"
+                      className="bg-white/15 border-white/20 text-white placeholder:text-gray-300 h-12 focus:ring-2 focus:ring-yellow-400 focus:bg-white/20"
                       required
                     />
                     <Input
                       type="email"
                       inputMode="email"
                       placeholder="Email Address *"
-                      className="bg-white/10 border-white/20 text-white placeholder:text-gray-400 h-12 focus:ring-2 focus:ring-yellow-400"
+                      className="bg-white/15 border-white/20 text-white placeholder:text-gray-300 h-12 focus:ring-2 focus:ring-yellow-400 focus:bg-white/20"
                       required
                     />
                   </div>
                   <Button type="submit" className="w-full md:w-auto md:px-12 bg-gradient-to-r from-yellow-400 to-yellow-600 hover:from-yellow-500 hover:to-yellow-700 text-black font-bold py-4 text-lg h-14 transition-all duration-300 hover:shadow-xl hover:shadow-yellow-400/25">
                     Secure My Investment Spot
                   </Button>
-                  <p className="text-sm text-gray-400">Limited spots available for Q1 2024 opportunities</p>
+                  <p className="text-sm text-gray-400">Limited spots available for Q1 2025 opportunities</p>
                 </form>
               </CardContent>
             </Card>
