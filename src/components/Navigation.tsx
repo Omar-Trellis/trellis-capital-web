@@ -7,6 +7,8 @@ const Navigation = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
   const [isScrolled, setIsScrolled] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -23,12 +25,49 @@ const Navigation = () => {
 
   useEffect(() => {
     const handleScroll = () => {
-      setIsScrolled(window.scrollY > 20);
+      const currentScrollY = window.scrollY;
+      
+      // Background effect
+      setIsScrolled(currentScrollY > 20);
+      
+      // Mobile collapsible behavior
+      if (window.innerWidth < 768) { // Only on mobile (md breakpoint)
+        if (currentScrollY > lastScrollY && currentScrollY > 100) {
+          // Scrolling down and past 100px
+          setIsVisible(false);
+          setIsOpen(false); // Close mobile menu when hiding
+        } else if (currentScrollY < lastScrollY) {
+          // Scrolling up
+          setIsVisible(true);
+        }
+        
+        // Always show at the very top
+        if (currentScrollY < 10) {
+          setIsVisible(true);
+        }
+      } else {
+        // Always visible on desktop
+        setIsVisible(true);
+      }
+      
+      setLastScrollY(currentScrollY);
+    };
+
+    const handleResize = () => {
+      // Always show navigation when resizing to desktop
+      if (window.innerWidth >= 768) {
+        setIsVisible(true);
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, []);
+    window.addEventListener('resize', handleResize);
+    
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      window.removeEventListener('resize', handleResize);
+    };
+  }, [lastScrollY]);
 
   return (
     <nav 
@@ -36,6 +75,10 @@ const Navigation = () => {
         isScrolled 
           ? 'bg-white/95 backdrop-blur-md shadow-md' 
           : 'bg-white'
+      } ${
+        isVisible 
+          ? 'translate-y-0' 
+          : '-translate-y-full'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
