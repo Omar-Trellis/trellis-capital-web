@@ -90,8 +90,8 @@ const Navigation = () => {
           >
             <TrellisLogo 
               variant="light" 
-              size="4xl" 
-              className="mr-4" 
+              size="lg" 
+              className="mr-3" 
             />
             <div className="flex flex-col">
               <span className="text-2xl font-bold text-gray-900 leading-tight">
