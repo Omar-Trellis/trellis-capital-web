@@ -1,4 +1,3 @@
-
 import { useState } from 'react';
 import { Phone, CheckCircle, Clock, DollarSign, Home, Heart, Users, Award, Star } from 'lucide-react';
 import { Input } from '@/components/ui/input';
@@ -8,10 +7,19 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { useParallax } from '@/hooks/useParallax';
-import { useCountUp } from '@/hooks/useCountUp';
 import { LoadingButton } from '@/components/LoadingButton';
 import { SuccessModal } from '@/components/SuccessModal';
-import { useToast } from '@/hooks/use-toast';
+import { toast } from "sonner";
+import { useCountUpAnimation } from '@/hooks/useCountUpAnimation';
+
+const Counter = ({ to, prefix = '', suffix = '', decimals = 0 }: { to: number, prefix?: string, suffix?: string, decimals?: number }) => {
+  const ref = useCountUpAnimation({ to, duration: 2 });
+  return (
+    <span className="inline-block" aria-live="polite" aria-atomic="true">
+      {prefix}<span ref={ref} />{suffix}
+    </span>
+  );
+};
 
 const Sellers = () => {
   const [formData, setFormData] = useState({
@@ -27,13 +35,9 @@ const Sellers = () => {
   const [errors, setErrors] = useState<Record<string, string>>({});
 
   const { offset } = useParallax(0.2);
-  const { toast } = useToast();
 
   // Counter animations for statistics
-  const homesPurchased = useCountUp({ end: 500, suffix: '+' });
-  const totalInvested = useCountUp({ end: 120, prefix: '$', suffix: 'M+' });
-  const avgDaysToClose = useCountUp({ end: 12 });
-  const customerRating = useCountUp({ end: 4.9, suffix: '/5' });
+  const customerRating = 4.9;
 
   const validateForm = () => {
     const newErrors: Record<string, string> = {};
@@ -70,11 +74,7 @@ const Sellers = () => {
       });
       setShowSuccess(true);
     } catch (error) {
-      toast({
-        title: "Error",
-        description: "Something went wrong. Please try again.",
-        variant: "destructive",
-      });
+      toast.error("Something went wrong. Please try again.");
     } finally {
       setLoading(false);
     }
@@ -137,7 +137,7 @@ const Sellers = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 via-white to-green-50">
       {/* Hero Section with Background Image */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="pt-36 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         {/* Background image with overlay */}
         <div className="absolute inset-0">
           <img 
@@ -415,20 +415,20 @@ const Sellers = () => {
           </AnimatedSection>
           <AnimatedSection>
             <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-12">
-              <div ref={homesPurchased.elementRef} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">{homesPurchased.displayValue}</div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2"><Counter to={500} suffix="+" /></div>
                 <div className="text-gray-600">Homes Purchased</div>
               </div>
-              <div ref={totalInvested.elementRef} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">{totalInvested.displayValue}</div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2"><Counter to={120} prefix="$" suffix="M+" /></div>
                 <div className="text-gray-600">Total Invested</div>
               </div>
-              <div ref={avgDaysToClose.elementRef} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">{avgDaysToClose.displayValue}</div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2"><Counter to={12} /></div>
                 <div className="text-gray-600">Average Days to Close</div>
               </div>
-              <div ref={customerRating.elementRef} className="text-center">
-                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2">{customerRating.displayValue}</div>
+              <div className="text-center">
+                <div className="text-3xl md:text-4xl font-bold text-green-600 mb-2"><Counter to={customerRating} decimals={1} suffix="/5" /></div>
                 <div className="text-gray-600">Customer Rating</div>
               </div>
             </div>

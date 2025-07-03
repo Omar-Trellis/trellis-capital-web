@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { ChevronDown, TrendingUp, Users, Zap, Play, CheckCircle, Star, ArrowRight } from 'lucide-react';
+import { ChevronDown, TrendingUp, Users, Zap, Play, CheckCircle, Star, ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
@@ -7,7 +7,22 @@ import { Card, CardContent } from '@/components/ui/card';
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from '@/components/ui/accordion';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { useParallax } from '@/hooks/useParallax';
+import { CircularTestimonials } from '@/components/ui/circular-testimonials';
+import { teamTestimonials } from '@/data/teamData';
+import AnimatedCaseStudy from '@/components/AnimatedCaseStudy';
+import { caseStudies } from '@/data/caseStudies';
+
 const Investors = () => {
+  const [currentStudyIndex, setCurrentStudyIndex] = useState(0);
+
+  const handleNextStudy = () => {
+    setCurrentStudyIndex((prevIndex) => (prevIndex + 1) % caseStudies.length);
+  };
+
+  const handlePrevStudy = () => {
+    setCurrentStudyIndex((prevIndex) => (prevIndex - 1 + caseStudies.length) % caseStudies.length);
+  };
+
   const [formData, setFormData] = useState({
     name: '',
     email: '',
@@ -23,32 +38,7 @@ const Investors = () => {
     console.log('Investor form submitted:', formData);
     // Handle form submission
   };
-  const teamMembers = [{
-    name: 'Jonathan Paz',
-    role: 'CEO & Founder',
-    expertise: 'Finance & Strategy',
-    bio: '15+ years in investment banking and real estate finance'
-  }, {
-    name: 'Robert Cullen',
-    role: 'COO',
-    expertise: 'Operations Excellence',
-    bio: 'Former operations director at Fortune 500 real estate firm'
-  }, {
-    name: 'Juan Del Sol',
-    role: 'CRO',
-    expertise: 'Acquisitions',
-    bio: 'Specialist in distressed property identification and negotiation'
-  }, {
-    name: 'Omar Magdy',
-    role: 'CTO',
-    expertise: 'AI Architecture',
-    bio: 'Former Google engineer, machine learning expert'
-  }, {
-    name: 'Alexei Semenov',
-    role: 'Strategic Advisor',
-    expertise: 'Investment Strategy',
-    bio: 'NHL veteran turned successful real estate investor'
-  }];
+
   const faqs = [{
     question: 'What is the minimum investment amount?',
     answer: 'Our minimum investment starts at $50,000 for accredited investors, with opportunities ranging up to $500,000+ for larger deals.'
@@ -64,7 +54,7 @@ const Investors = () => {
   }];
   return <div className="min-h-screen bg-gradient-to-br from-gray-900 via-gray-800 to-black text-white">
       {/* Hero Section with Parallax */}
-      <section className="pt-24 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
+      <section className="pt-36 pb-16 px-4 sm:px-6 lg:px-8 relative overflow-hidden">
         <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/10 to-green-400/10" style={{
         transform: `translateY(${offset}px)`
       }}></div>
@@ -215,46 +205,24 @@ const Investors = () => {
         <div className="max-w-7xl mx-auto">
           <AnimatedSection className="text-center mb-12">
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Real Returns from Real Deals</h2>
-            <p className="text-xl text-gray-200">Featured case study from our Miami portfolio</p>
+            <p className="text-xl text-gray-200">Featured case study from our {caseStudies[currentStudyIndex].location} portfolio</p>
           </AnimatedSection>
-          <AnimatedSection className="max-w-4xl mx-auto">
-            <Card className="bg-gradient-to-br from-green-900/30 to-yellow-900/30 backdrop-blur-md border-green-400/20 shadow-2xl">
-              <CardContent className="p-8">
-                <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 items-center">
-                  <div>
-                    <h3 className="text-2xl font-bold mb-4">Miami Beach Renovation</h3>
-                    <div className="space-y-4">
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-950">Purchase Price:</span>
-                        <span className="text-xl font-bold">$335,000</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-950">Renovation Cost:</span>
-                        <span className="text-xl font-bold">$65,000</span>
-                      </div>
-                      <div className="flex justify-between items-center">
-                        <span className="text-slate-950">Sale Price:</span>
-                        <span className="text-xl font-bold text-[#8afd3d]">$615,000</span>
-                      </div>
-                      <div className="border-t border-white/20 pt-4">
-                        <div className="flex justify-between items-center">
-                          <span className="text-lg font-bold">Net ROI:</span>
-                          <span className="text-3xl font-bold text-[#fdfd3d]">45%</span>
-                        </div>
-                        <div className="text-sm text-Slate-950 mt-2 ">Completed in 6 months</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="text-center">
-                    <div className="w-32 h-32 bg-gradient-to-br from-yellow-400 to-green-400 rounded-full flex items-center justify-center mx-auto mb-4">
-                      <div className="text-black text-3xl font-bold">45%</div>
-                    </div>
-                    
-                  </div>
-                </div>
-              </CardContent>
-            </Card>
+          <AnimatedSection>
+            <div className="min-h-[600px] flex items-center justify-center relative">
+              {/* Use single AnimatedCaseStudy with data prop changes for better performance */}
+              <AnimatedCaseStudy 
+                data={caseStudies[currentStudyIndex]}
+              />
+            </div>
           </AnimatedSection>
+          <div className="flex justify-center mt-8 gap-4">
+            <Button onClick={handlePrevStudy} variant="outline" className="text-white bg-white/10 border-white/20 hover:bg-white/20">
+              <ChevronLeft className="w-4 h-4 mr-2" /> Previous
+            </Button>
+            <Button onClick={handleNextStudy} variant="outline" className="text-white bg-white/10 border-white/20 hover:bg-white/20">
+              Next <ChevronRight className="w-4 h-4 ml-2" />
+            </Button>
+          </div>
         </div>
       </section>
 
@@ -265,21 +233,26 @@ const Investors = () => {
             <h2 className="text-3xl md:text-4xl font-bold mb-4">Your Investment Partners</h2>
             <p className="text-xl text-gray-200">Meet the team behind your success</p>
           </AnimatedSection>
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-            {teamMembers.map((member, index) => <AnimatedSection key={index} delay={index * 100}>
-                <Card className="bg-white/5 backdrop-blur-sm border-white/10 hover:bg-white/10 transition-all duration-300 group h-full">
-                  <CardContent className="p-6 text-center">
-                    <div className="w-24 h-24 bg-gradient-to-br from-yellow-400 to-green-400 rounded-full mx-auto mb-4 flex items-center justify-center">
-                      <span className="text-black text-xl font-bold">{member.name.split(' ').map(n => n[0]).join('')}</span>
-                    </div>
-                    <h3 className="text-xl font-bold mb-1 text-slate-50">{member.name}</h3>
-                    <p className="text-yellow-400 font-medium mb-2">{member.role}</p>
-                    <p className="text-sm mb-3 text-gray-300">{member.expertise}</p>
-                    <p className="text-sm text-gray-200 opacity-0 group-hover:opacity-100 transition-opacity">{member.bio}</p>
-                  </CardContent>
-                </Card>
-              </AnimatedSection>)}
-          </div>
+          
+          <AnimatedSection className="flex justify-center">
+            <CircularTestimonials
+              testimonials={teamTestimonials}
+              autoplay={true}
+              colors={{
+                name: "#f7f7ff",
+                designation: "#e1e1e1",
+                testimony: "#f1f1f7",
+                arrowBackground: "#eab308",
+                arrowForeground: "#141414",
+                arrowHoverBackground: "#f7f7ff",
+              }}
+              fontSizes={{
+                name: "28px",
+                designation: "18px",
+                quote: "18px",
+              }}
+            />
+          </AnimatedSection>
         </div>
       </section>
 

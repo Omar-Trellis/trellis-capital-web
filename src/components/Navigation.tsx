@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Link, useLocation } from 'react-router-dom';
 import { Menu, X } from 'lucide-react';
 import { TrellisLogo } from './TrellisLogo';
@@ -6,6 +6,7 @@ import { TrellisLogo } from './TrellisLogo';
 const Navigation = () => {
   const location = useLocation();
   const [isOpen, setIsOpen] = useState(false);
+  const [isScrolled, setIsScrolled] = useState(false);
 
   const isActive = (path: string) => location.pathname === path;
 
@@ -14,91 +15,99 @@ const Navigation = () => {
   };
 
   const navItems = [
+    { path: '/', label: 'Home' },
     { path: '/investors', label: 'For Investors' },
     { path: '/sellers', label: 'For Sellers' },
     { path: '/contact', label: 'Contact' }
   ];
 
+  useEffect(() => {
+    const handleScroll = () => {
+      setIsScrolled(window.scrollY > 20);
+    };
+
+    window.addEventListener('scroll', handleScroll, { passive: true });
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, []);
+
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-xl border-b border-gray-200 shadow-2xl">
-      <div className="absolute inset-0 bg-gradient-to-r from-transparent via-white/10 to-transparent"></div>
-      <div className="absolute inset-0 bg-gradient-to-b from-white/20 via-white/5 to-transparent"></div>
-      <div className="absolute inset-0 bg-gradient-to-r from-yellow-400/5 via-transparent to-green-400/5"></div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative">
-        <div className="flex justify-between items-center h-20">
+    <nav 
+      className={`fixed top-0 left-0 right-0 z-50 transition-all duration-300 ${
+        isScrolled 
+          ? 'bg-white/95 backdrop-blur-md shadow-md' 
+          : 'bg-white'
+      }`}
+    >
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="flex justify-between items-center h-24">
           {/* Logo */}
-          <Link to="/investors" className="flex items-center text-xl font-bold text-gray-900 hover:text-yellow-600 transition-colors duration-300 group">
-            <TrellisLogo variant="light" size="3xl" className="group-hover:scale-110 transition-transform duration-300" />
+          <Link 
+            to="/" 
+            className="flex items-center hover:opacity-80 transition-opacity duration-200"
+          >
+            <TrellisLogo 
+              variant="light" 
+              size="4xl" 
+              className="mr-4" 
+            />
+            <div className="flex flex-col">
+              <span className="text-2xl font-bold text-gray-900 leading-tight">
+                Trellis Capital
+              </span>
+              <span className="text-sm font-medium text-gray-600 -mt-1">
+                Investment Group
+              </span>
+            </div>
           </Link>
 
           {/* Desktop Navigation */}
-          <div className="hidden md:flex items-center space-x-1">
+          <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <Link
                 key={item.path}
                 to={item.path}
-                className={`relative px-4 py-2 text-sm font-semibold transition-all duration-300 rounded-lg group ${
+                className={`text-sm font-medium transition-colors duration-200 relative py-2 ${
                   isActive(item.path) 
-                    ? 'text-yellow-600 bg-yellow-400/20 shadow-lg shadow-yellow-400/20' 
-                    : 'text-gray-900 hover:text-yellow-600 hover:bg-gray-100/50'
+                    ? 'text-yellow-600' 
+                    : 'text-gray-700 hover:text-yellow-600'
                 }`}
               >
-                <span className="relative z-10">{item.label}</span>
-                {/* Gold glow effect on hover */}
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-yellow-400/30 to-yellow-600/30 opacity-0 group-hover:opacity-100 transition-all duration-300 blur-sm scale-110"></div>
-                <div className="absolute inset-0 rounded-lg bg-gradient-to-r from-yellow-400/10 to-yellow-600/10 opacity-0 group-hover:opacity-100 transition-opacity duration-300"></div>
-                {/* Active indicator */}
+                {item.label}
                 {isActive(item.path) && (
-                  <div className="absolute bottom-0 left-1/2 transform -translate-x-1/2 w-3/4 h-0.5 bg-gradient-to-r from-yellow-400 to-yellow-600 rounded-full shadow-lg shadow-yellow-400/50"></div>
+                  <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-yellow-600 rounded-full"></div>
                 )}
               </Link>
             ))}
           </div>
 
           {/* Mobile menu button */}
-          <div className="md:hidden">
-            <button
-              onClick={() => setIsOpen(!isOpen)}
-              className="p-2 rounded-lg text-gray-900 hover:bg-white/10 transition-all duration-300 hover:text-yellow-600 min-w-[44px] min-h-[44px] flex items-center justify-center drop-shadow-sm"
-            >
-              {isOpen ? <X size={24} /> : <Menu size={24} />}
-            </button>
-          </div>
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="md:hidden p-2 rounded-md text-gray-700 hover:text-yellow-600 hover:bg-gray-100 transition-colors duration-200"
+            aria-label="Toggle menu"
+          >
+            {isOpen ? <X size={24} /> : <Menu size={24} />}
+          </button>
         </div>
 
-        {/* Mobile Navigation with backdrop */}
+        {/* Mobile Navigation */}
         {isOpen && (
-          <div className="md:hidden fixed inset-0 top-20 z-40">
-            <div 
-              className="absolute inset-0 bg-black/20 backdrop-blur-sm"
-              onClick={() => setIsOpen(false)}
-            />
-            <div className={`absolute top-0 right-0 w-64 h-full bg-white/95 backdrop-blur-xl border-l border-gray-200 shadow-2xl transition-all duration-500 ease-out ${
-              isOpen ? 'translate-x-0 opacity-100' : 'translate-x-full opacity-0'
-            }`}>
-              <div className="absolute inset-0 bg-gradient-to-br from-white/20 via-white/10 to-white/5"></div>
-              <div className="relative px-6 py-8 space-y-2">
-                {navItems.map((item, index) => (
-                  <Link
-                    key={item.path}
-                    to={item.path}
-                    onClick={handleLinkClick}
-                    className={`block px-4 py-4 text-base font-semibold rounded-xl transition-all duration-300 min-h-[44px] ${
-                      isActive(item.path)
-                        ? 'text-yellow-600 bg-yellow-400/20 border border-yellow-400/30 shadow-lg'
-                        : 'text-gray-900 hover:text-yellow-600 hover:bg-gray-100/50'
-                    }`}
-                    style={{ 
-                      transitionDelay: isOpen ? `${index * 100}ms` : '0ms',
-                      transform: isOpen ? 'translateX(0)' : 'translateX(20px)',
-                      opacity: isOpen ? 1 : 0
-                    }}
-                  >
-                    {item.label}
-                  </Link>
-                ))}
-              </div>
+          <div className="md:hidden border-t border-gray-200 bg-white">
+            <div className="px-2 pt-2 pb-3 space-y-1">
+              {navItems.map((item) => (
+                <Link
+                  key={item.path}
+                  to={item.path}
+                  onClick={handleLinkClick}
+                  className={`block px-3 py-2 text-base font-medium rounded-md transition-colors duration-200 ${
+                    isActive(item.path)
+                      ? 'text-yellow-600 bg-yellow-50'
+                      : 'text-gray-700 hover:text-yellow-600 hover:bg-gray-50'
+                  }`}
+                >
+                  {item.label}
+                </Link>
+              ))}
             </div>
           </div>
         )}

@@ -6,8 +6,11 @@ export const useParallax = (speed: number = 0.5) => {
   const elementRef = useRef<HTMLElement>(null);
 
   useEffect(() => {
+    // Check for reduced motion preference
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    
     const handleScroll = () => {
-      if (window.innerWidth < 768) return; // Desktop only
+      if (window.innerWidth < 768 || prefersReducedMotion) return; // Desktop only and respect reduced motion
       
       const scrolled = window.pageYOffset;
       setOffset(scrolled * speed);

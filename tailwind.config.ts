@@ -1,4 +1,3 @@
-
 import type { Config } from "tailwindcss";
 
 export default {
@@ -22,8 +21,32 @@ export default {
 			fontFamily: {
 				'montserrat': ['Montserrat', 'sans-serif'],
 				'sans': ['Montserrat', 'sans-serif'],
+				'jakarta': ['Plus Jakarta Sans', 'sans-serif'],
+			},
+			transitionDuration: {
+				'300': '300ms',
+				'400': '400ms',
+				'500': '500ms',
+				'600': '600ms',
+				'700': '700ms',
+				'800': '800ms',
+				'900': '900ms',
+				'1000': '1000ms',
 			},
 			colors: {
+				// Professional navy blue inspired by KPI Capital
+				'navy': {
+					900: '#000321',
+					800: '#000D32',
+					700: '#001547',
+					600: '#002366',
+				},
+				// Professional bronze/gold accent
+				'bronze': {
+					400: '#c09457',
+					500: '#b8885a',
+					600: '#a67c52',
+				},
 				border: 'hsl(var(--border))',
 				input: 'hsl(var(--input))',
 				ring: 'hsl(var(--ring))',
