@@ -444,7 +444,7 @@ const PitchDeck = () => {
             </AnimatedSection>
 
             <AnimatedSection delay={200} animation="slide-left">
-              <Card className="bg-gradient-to-br from-green-400/10 to-green-500/10 border-green-400/30 p-8 h-full hover:border-green-400/50 transition-colors bg-slate-600">
+              <Card className="bg-gradient-to-br from-green-400/10 to-green-500/10 border-green-400/30 p-8 h-full hover:border-green-400/50 transition-colors bg-slate-900">
                 <h2 className="text-3xl font-bold bg-gradient-to-r from-green-400 to-green-500 bg-clip-text text-transparent mb-2">
                   Fortress Strategy
                 </h2>
