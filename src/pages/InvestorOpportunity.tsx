@@ -1,14 +1,351 @@
 import React from 'react';
+import { Download } from 'lucide-react';
 
 const InvestorOpportunity: React.FC = () => {
   const handlePrint = () => {
-    window.print();
+    // Create a new window with just the investor opportunity content
+    const printWindow = window.open('', '_blank');
+    if (printWindow) {
+      printWindow.document.write(`
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <title>Trellis Investment Group - Investor Opportunity Report</title>
+          <style>
+            @page {
+              margin: 0.5in;
+              size: letter;
+            }
+            * {
+              margin: 0;
+              padding: 0;
+              box-sizing: border-box;
+            }
+            body {
+              font-family: Arial, sans-serif;
+              background: white;
+              color: black;
+              font-size: 10px;
+              line-height: 1.2;
+            }
+            .container {
+              max-width: 100%;
+              padding: 0;
+            }
+            .header {
+              text-align: center;
+              margin-bottom: 15px;
+              border-bottom: 2px solid #000;
+              padding-bottom: 10px;
+            }
+            .logo {
+              max-width: 120px;
+              height: auto;
+              margin: 0 auto 10px;
+            }
+            h1 {
+              font-size: 18px;
+              font-weight: bold;
+              margin: 5px 0;
+            }
+            h2 {
+              font-size: 14px;
+              margin: 3px 0;
+            }
+            .main-title {
+              font-size: 14px;
+              font-weight: bold;
+              text-align: center;
+              margin: 10px 0;
+              border-bottom: 1px solid #000;
+              padding-bottom: 5px;
+            }
+            .section-title {
+              font-size: 11px;
+              font-weight: bold;
+              margin: 10px 0 5px 0;
+            }
+            .two-column {
+              display: grid;
+              grid-template-columns: 1fr 1fr;
+              gap: 20px;
+              margin-bottom: 15px;
+            }
+            .three-column {
+              display: grid;
+              grid-template-columns: 1fr 1fr 1fr;
+              gap: 15px;
+              margin-bottom: 10px;
+            }
+            ul {
+              list-style: none;
+              padding: 0;
+              margin: 0 0 10px 0;
+            }
+            li {
+              margin-bottom: 2px;
+              font-size: 9px;
+            }
+            table {
+              width: 100%;
+              border-collapse: collapse;
+              margin-bottom: 10px;
+              font-size: 8px;
+            }
+            th, td {
+              border: 1px solid #666;
+              padding: 3px;
+              text-align: left;
+            }
+            th {
+              background-color: #f0f0f0;
+              font-weight: bold;
+            }
+            .contact {
+              text-align: center;
+              margin-top: 15px;
+              font-size: 9px;
+            }
+            .break-inside-avoid {
+              break-inside: avoid;
+            }
+            a {
+              color: #0066cc;
+              text-decoration: underline;
+            }
+          </style>
+        </head>
+        <body>
+          <div class="container">
+            <div class="header">
+              <img src="/logos/Dark BG.png" alt="Trellis Investment Group Logo" class="logo" />
+              <h1>TRELLIS</h1>
+              <h2>INVESTMENT GROUP</h2>
+            </div>
+
+            <div class="main-title">Investor Opportunity: Forced Appreciation – 3611 SW 36 Street, Hollywood, FL 33023</div>
+
+            <div class="two-column">
+              <div>
+                <div class="section-title">🔹 Investment Snapshot</div>
+                <ul>
+                  <li>Capital Needed: $100,000</li>
+                  <li>Hold Period: 6 Months</li>
+                  <li>Return to Investor: 12% Fixed</li>
+                  <li>Total Payout: $112,000</li>
+                  <li>Use of Funds:
+                    <ul style="margin-left: 15px; list-style: disc;">
+                      <li>Bridge equity gap on construction financing</li>
+                      <li>Trigger first draw</li>
+                      <li>Satisfy short-term debt service</li>
+                    </ul>
+                  </li>
+                </ul>
+
+                <div class="section-title">🔹 Project Overview</div>
+                <ul>
+                  <li>Acquisition Price: $275,000</li>
+                  <li>CapEx Budget: $91,000</li>
+                  <li>All-In Cost: $366,000</li>
+                  <li>Targeted ARV: $525,000</li>
+                  <li>Gross Profit Potential: ~$159,000</li>
+                  <li>Exit Strategy: Resale upon completion</li>
+                </ul>
+              </div>
+              <div>
+                <div class="section-title">🔹 Use of Investor Capital</div>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Allocation</th>
+                      <th>Amount</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr><td>Equity Injection</td><td>$46,750</td></tr>
+                    <tr><td>CapEx Draw Trigger</td><td>$20,000</td></tr>
+                    <tr><td>Debt Service Reserve</td><td>$16,750</td></tr>
+                    <tr><td>Carry/Contingency Buffer</td><td>$16,500</td></tr>
+                    <tr><td><strong>Total</strong></td><td><strong>$100,000</strong></td></tr>
+                  </tbody>
+                </table>
+
+                <div class="section-title">🔹 Why This Deal Works</div>
+                <ul>
+                  <li>Undervalued acquisition in appreciating submarket</li>
+                  <li>Hollywood, FL is a supply-constrained, high-demand area</li>
+                  <li>Renovation targets high-ROI improvements</li>
+                  <li>Strong comps support $500K+ resale</li>
+                  <li>Efficient, short timeline reduces exposure</li>
+                </ul>
+              </div>
+            </div>
+
+            <div class="section-title">🔹 Investor Terms & Summary</div>
+            <table>
+              <thead>
+                <tr>
+                  <th>Term</th>
+                  <th>Detail</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr><td>Investment</td><td>$100,000</td></tr>
+                <tr><td>Return</td><td>12% Fixed</td></tr>
+                <tr><td>Term</td><td>6 Months</td></tr>
+                <tr><td>Total Payout</td><td>$112,000</td></tr>
+                <tr><td>Security</td><td>Subordinate Lien (negotiable)</td></tr>
+                <tr><td>Reporting</td><td>Monthly updates & progress photos</td></tr>
+              </tbody>
+            </table>
+
+            <div class="section-title">🔹 Detailed Capex Breakdown</div>
+            
+            <div class="three-column">
+              <div class="break-inside-avoid">
+                <div class="section-title">New Roof</div>
+                <table>
+                  <thead><tr><th>Task</th><th>Cost</th></tr></thead>
+                  <tbody>
+                    <tr><td>Removal</td><td>$5,000</td></tr>
+                    <tr><td>Replace</td><td>$20,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="break-inside-avoid">
+                <div class="section-title">Kitchen</div>
+                <table>
+                  <thead><tr><th>Task</th><th>Cost</th></tr></thead>
+                  <tbody>
+                    <tr><td>Removal</td><td>$1,500</td></tr>
+                    <tr><td>Boxes and Doors</td><td>$3,500</td></tr>
+                    <tr><td>Countertop</td><td>$2,000</td></tr>
+                    <tr><td>Appliances</td><td>$3,000</td></tr>
+                    <tr><td>Backsplash</td><td>$500</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="break-inside-avoid">
+                <div class="section-title">Bathrooms (2)</div>
+                <table>
+                  <thead><tr><th>Task</th><th>Cost</th></tr></thead>
+                  <tbody>
+                    <tr><td>Removal</td><td>$3,000</td></tr>
+                    <tr><td>Plumbing</td><td>$2,000</td></tr>
+                    <tr><td>Vanity | Toilet | Shower</td><td>$2,500</td></tr>
+                    <tr><td>Fixtures</td><td>$1,000</td></tr>
+                    <tr><td>Paint</td><td>$1,500</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="break-inside-avoid">
+                <div class="section-title">Flooring</div>
+                <table>
+                  <thead><tr><th>Task</th><th>Cost</th></tr></thead>
+                  <tbody>
+                    <tr><td>Removal</td><td>$2,100</td></tr>
+                    <tr><td>LBP</td><td>$5,625</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="break-inside-avoid">
+                <div class="section-title">HVAC</div>
+                <table>
+                  <thead><tr><th>Task</th><th>Cost</th></tr></thead>
+                  <tbody>
+                    <tr><td>Removal</td><td>$1,000</td></tr>
+                    <tr><td>Air Handler</td><td>$550</td></tr>
+                    <tr><td>Condenser</td><td>$1,500</td></tr>
+                    <tr><td>Thermostat</td><td>$150</td></tr>
+                    <tr><td>Installation</td><td>$3,300</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="break-inside-avoid">
+                <div class="section-title">Electrical</div>
+                <table>
+                  <thead><tr><th>Task</th><th>Cost</th></tr></thead>
+                  <tbody>
+                    <tr><td>Breaker Removal</td><td>$500</td></tr>
+                    <tr><td>Breaker Panel + Install</td><td>$2,500</td></tr>
+                    <tr><td>Outlets (USB-C) + Dimmers</td><td>$2,000</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="break-inside-avoid">
+                <div class="section-title">Water Heater</div>
+                <table>
+                  <thead><tr><th>Task</th><th>Cost</th></tr></thead>
+                  <tbody>
+                    <tr><td>Removal</td><td>$250</td></tr>
+                    <tr><td>Tankless Waterheater + Install</td><td>$1,250</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="break-inside-avoid">
+                <div class="section-title">Windows + Doors</div>
+                <table>
+                  <thead><tr><th>Task</th><th>Cost</th></tr></thead>
+                  <tbody>
+                    <tr><td>Removal</td><td>$1,000</td></tr>
+                    <tr><td>Doors</td><td>$6,500</td></tr>
+                    <tr><td>Windows</td><td>$7,500</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <div class="break-inside-avoid">
+                <div class="section-title">Paint</div>
+                <table>
+                  <thead><tr><th>Task</th><th>Cost</th></tr></thead>
+                  <tbody>
+                    <tr><td>Exterior Paint</td><td>$5,000</td></tr>
+                    <tr><td>Interior Paint</td><td>$3,500</td></tr>
+                    <tr><td>Molding + Baseboards</td><td>$1,000</td></tr>
+                    <tr><td>Misc</td><td>$500</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            <p style="font-size: 9px; margin: 10px 0;">We're currently finalizing funding commitments for this project and invite you to secure your position today.</p>
+
+            <ul style="font-size: 9px;">
+              <li>✅ Investment Amount: $100,000</li>
+              <li>✅ Return: 12% Fixed over 6 months</li>
+              <li>✅ Payout: $112,000 at maturity</li>
+              <li>✅ Timeline: Capital deployed within 14 days</li>
+              <li>✅ Reporting: Full transparency with monthly updates</li>
+            </ul>
+
+            <div class="contact">
+              <p>To proceed, contact Jonathan Paz | CEO at <a href="mailto:jon@trellisinvest.com">jon@trellisinvest.com</a> or call <a href="tel:305-504-4884">305-504-4884</a>.</p>
+              <p>We look forward to aligning with you on this and future opportunities at Trellis Investment Group.</p>
+            </div>
+          </div>
+        </body>
+        </html>
+      `);
+      printWindow.document.close();
+      
+      // Wait for the content to load, then print
+      setTimeout(() => {
+        printWindow.print();
+        printWindow.close();
+      }, 500);
+    }
   };
 
   return (
     <div className="bg-black text-yellow-400 p-5 font-sans print:bg-white print:text-black">
       <div className="max-w-4xl mx-auto bg-gray-900 p-8 rounded-lg shadow-[0_0_15px_rgba(255,215,0,0.7)] relative print:shadow-none print:bg-white print:p-4">
-        
+        <button 
+          onClick={handlePrint} 
+          className="absolute top-4 right-4 bg-yellow-400 text-black p-2 rounded-full hover:bg-yellow-500 transition-all print:hidden"
+          aria-label="Download as PDF"
+        >
+          <Download className="w-5 h-5" />
+        </button>
+
         <div className="text-center mb-8 print:mb-4">
           <img src="/logos/Dark BG.png" alt="Trellis Investment Group Logo" className="max-w-[150px] h-auto mx-auto hidden print:block print:max-w-[120px]" />
           <img src="/logos/White BG.png" alt="Trellis Investment Group Logo" className="max-w-[150px] h-auto mx-auto drop-shadow-[0_0_10px_rgba(255,215,0,0.9)] print:hidden" />
