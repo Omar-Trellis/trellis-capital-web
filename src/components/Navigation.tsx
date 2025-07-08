@@ -20,8 +20,7 @@ const Navigation = () => {
     { path: '/', label: 'Home' },
     { path: '/investors', label: 'For Investors' },
     { path: '/sellers', label: 'For Sellers' },
-    { path: '/contact', label: 'Contact' },
-    { path: '/pitch-deck', label: 'Pitch Deck' }
+    { path: '/contact', label: 'Contact' }
   ];
 
   useEffect(() => {
