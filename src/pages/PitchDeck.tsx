@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { ArrowRight, TrendingUp, Shield, Users, Target, Award, ChevronRight, Clock, DollarSign, Download } from 'lucide-react';
+import { ArrowRight, TrendingUp, Shield, Users, Target, Award, ChevronRight, Clock, DollarSign, Download, ChevronUp, ChevronDown } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 const PitchDeck = () => {
@@ -158,26 +158,38 @@ const PitchDeck = () => {
   useEffect(() => {
     let touchStartY = 0;
     let touchEndY = 0;
+    let touchStartTime = 0;
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.changedTouches[0].screenY;
+      touchStartTime = Date.now();
     };
     const handleTouchEnd = (e: TouchEvent) => {
       touchEndY = e.changedTouches[0].screenY;
-      handleSwipeGesture();
+      const touchEndTime = Date.now();
+      const touchDuration = touchEndTime - touchStartTime;
+      
+      // Only handle quick swipes (less than 500ms) to avoid interfering with scrolling
+      if (touchDuration < 500) {
+        handleSwipeGesture();
+      }
     };
     const handleSwipeGesture = () => {
       setHasInteracted(true);
-      const swipeThreshold = 50;
-      if (touchStartY - touchEndY > swipeThreshold) {
-        // Swipe up - go to next slide
-        if (currentSlide < slides.length - 1) {
-          scrollToSlide(currentSlide + 1);
-        }
-      }
-      if (touchEndY - touchStartY > swipeThreshold) {
-        // Swipe down - go to previous slide
-        if (currentSlide > 0) {
-          scrollToSlide(currentSlide - 1);
+      const swipeThreshold = 100; // Increased from 50 to 100 for less sensitivity
+      const swipeDistance = Math.abs(touchStartY - touchEndY);
+      
+      // Only trigger if swipe is significant enough
+      if (swipeDistance > swipeThreshold) {
+        if (touchStartY - touchEndY > swipeThreshold) {
+          // Swipe up - go to next slide
+          if (currentSlide < slides.length - 1) {
+            scrollToSlide(currentSlide + 1);
+          }
+        } else if (touchEndY - touchStartY > swipeThreshold) {
+          // Swipe down - go to previous slide
+          if (currentSlide > 0) {
+            scrollToSlide(currentSlide - 1);
+          }
         }
       }
     };
@@ -272,34 +284,69 @@ const PitchDeck = () => {
       }} />
       </div>
 
-      {/* Mobile Slide Indicator */}
-      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 lg:hidden">
-        <div className="flex flex-col items-center gap-2">
-          <div className="flex items-center gap-2 bg-gray-900/90 backdrop-blur-sm px-4 py-2 rounded-full">
-            <span className="text-sm text-gray-400">Slide</span>
-            <span className="text-sm font-bold text-yellow-400">{currentSlide + 1}</span>
-            <span className="text-sm text-gray-400">of {slides.length}</span>
-          </div>
-          {/* Swipe Indicator - only show on first slide and if user hasn't interacted */}
-          {currentSlide === 0 && !hasInteracted && (
-            <div className="flex items-center gap-2 text-xs text-gray-400 animate-pulse swipe-indicator">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-                <path d="M8 6L12 2L16 6" />
-                <path d="M12 2V14" />
-                <path d="M8 18L12 22L16 18" />
-                <path d="M12 22V10" />
-              </svg>
-              <span>Swipe to navigate</span>
+      {/* Mobile Navigation */}
+      <div className="lg:hidden">
+        {/* Mobile Slide Indicator */}
+        <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50">
+          <div className="flex flex-col items-center gap-2">
+            <div className="flex items-center gap-2 bg-gray-900/90 backdrop-blur-sm px-4 py-2 rounded-full">
+              <span className="text-sm text-gray-400">Slide</span>
+              <span className="text-sm font-bold text-yellow-400">{currentSlide + 1}</span>
+              <span className="text-sm text-gray-400">of {slides.length}</span>
             </div>
-          )}
+            {/* Swipe Indicator - only show on first slide and if user hasn't interacted */}
+            {currentSlide === 0 && !hasInteracted && (
+              <div className="flex items-center gap-2 text-xs text-gray-400 animate-pulse swipe-indicator">
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                  <path d="M8 6L12 2L16 6" />
+                  <path d="M12 2V14" />
+                  <path d="M8 18L12 22L16 18" />
+                  <path d="M12 22V10" />
+                </svg>
+                <span>Swipe to navigate</span>
+              </div>
+            )}
+          </div>
+        </div>
+
+        {/* Mobile Navigation Buttons */}
+        <div className="fixed right-4 bottom-20 z-50 flex flex-col gap-2">
+          <button
+            onClick={() => currentSlide > 0 && scrollToSlide(currentSlide - 1)}
+            disabled={currentSlide === 0}
+            className={cn(
+              "p-3 rounded-full shadow-lg transition-all duration-300",
+              "bg-gray-900/90 backdrop-blur-sm",
+              currentSlide === 0
+                ? "opacity-30 cursor-not-allowed"
+                : "hover:bg-gray-800 active:scale-95"
+            )}
+            aria-label="Previous slide"
+          >
+            <ChevronUp className="w-5 h-5 text-white" />
+          </button>
+          <button
+            onClick={() => currentSlide < slides.length - 1 && scrollToSlide(currentSlide + 1)}
+            disabled={currentSlide === slides.length - 1}
+            className={cn(
+              "p-3 rounded-full shadow-lg transition-all duration-300",
+              "bg-gray-900/90 backdrop-blur-sm",
+              currentSlide === slides.length - 1
+                ? "opacity-30 cursor-not-allowed"
+                : "hover:bg-gray-800 active:scale-95"
+            )}
+            aria-label="Next slide"
+          >
+            <ChevronDown className="w-5 h-5 text-white" />
+          </button>
         </div>
       </div>
 
       {/* Floating Action Buttons */}
-      <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
-        <button onClick={handleDownloadPDF} className="group relative bg-gray-900 hover:bg-gray-800 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300" aria-label="Download PDF">
-          <Download className="w-6 h-6" />
-          <span className="absolute right-full mr-3 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+      <div className="fixed bottom-8 right-8 lg:bottom-8 lg:right-8 md:bottom-32 md:right-4 z-50 flex flex-col gap-4">
+        <button onClick={handleDownloadPDF} className="group relative bg-gray-900 hover:bg-gray-800 text-white p-3 lg:p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300" aria-label="Download PDF">
+          <Download className="w-5 h-5 lg:w-6 lg:h-6" />
+          <span className="absolute right-full mr-3 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden lg:block">
             Download PDF
           </span>
         </button>

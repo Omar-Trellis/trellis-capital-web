@@ -162,3 +162,23 @@ This is a React SPA for Trellis Capital Group built with Vite, TypeScript, and T
   - Indicator disappears after first interaction
   - Animated up/down arrows to show swipe direction
   - Only visible on mobile devices on the first slide
+
+### Pitch Deck Mobile Scrolling Improvements (2025-01-08)
+- **Easier Mobile Navigation:**
+  - Changed scroll-snap from `mandatory` to `proximity` for smoother scrolling
+  - Removed `scroll-snap-stop: always` to allow scrolling through slides
+  - Added dedicated up/down navigation buttons for mobile users
+  - Buttons disable appropriately at first/last slides
+- **Fixed Overflow Issues:**
+  - Removed conflicting overflow-y settings from individual slides
+  - Let container handle all scrolling for better performance
+  - Changed slides from fixed height to min-height for natural content flow
+- **Improved Touch Gestures:**
+  - Increased swipe threshold from 50px to 100px to prevent accidental navigation
+  - Added time-based detection (< 500ms) to distinguish swipes from scrolls
+  - Only quick, deliberate swipes trigger slide navigation
+- **Visual Enhancements:**
+  - Added bouncing arrow indicators at bottom of each slide
+  - Shows users they can scroll to next content
+  - Automatically hidden on the last slide
+  - Repositioned download button to avoid conflicts with nav buttons
