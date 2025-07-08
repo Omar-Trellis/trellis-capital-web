@@ -363,7 +363,7 @@ const PitchDeck = () => {
             </AnimatedSection>
 
             <AnimatedSection delay={200} animation="slide-left">
-              <Card className="bg-gradient-to-br from-red-500/10 to-red-600/10 border-red-500/30 p-8 h-full hover:border-red-400/50 transition-colors bg-slate-800">
+              <Card className="bg-gradient-to-br from-red-500/10 to-red-600/10 border-red-500/30 p-8 h-full hover:border-red-400/50 transition-colors bg-slate-900">
                 <h3 className="text-2xl font-bold text-yellow-400 mb-6">The Tax Strategist</h3>
                 <ul className="space-y-4 text-gray-200">
                   <li className="flex items-start">
