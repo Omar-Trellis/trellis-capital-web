@@ -2,9 +2,16 @@ import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { ArrowRight, TrendingUp, Shield, Users, Target, Award, ChevronRight, Clock, DollarSign, Download, ChevronUp, ChevronDown } from 'lucide-react';
+import { ArrowRight, TrendingUp, Shield, Users, Target, Award, ChevronRight, Clock, DollarSign, Download, ChevronUp, ChevronDown, Briefcase } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
+import {
+  Dialog,
+  DialogContent,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import InvestorOpportunity from '@/pages/InvestorOpportunity';
+
 const PitchDeck = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
   const [hasInteracted, setHasInteracted] = useState(false);
@@ -334,6 +341,19 @@ const PitchDeck = () => {
 
       {/* Floating Action Buttons */}
       <div className="fixed bottom-8 right-8 lg:bottom-8 lg:right-8 md:bottom-32 md:right-4 z-50 flex flex-col gap-4">
+        <Dialog>
+          <DialogTrigger asChild>
+            <button className="group relative bg-blue-600 hover:bg-blue-500 text-white p-3 lg:p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300" aria-label="View Investor Opportunity">
+              <Briefcase className="w-5 h-5 lg:w-6 lg:h-6" />
+              <span className="absolute right-full mr-3 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden lg:block">
+                Investor Opportunity
+              </span>
+            </button>
+          </DialogTrigger>
+          <DialogContent className="sm:max-w-[825px] bg-transparent border-none p-0 overflow-y-auto max-h-[90vh]">
+            <InvestorOpportunity />
+          </DialogContent>
+        </Dialog>
         <button onClick={handleDownloadPDF} className="group relative bg-gray-900 hover:bg-gray-800 text-white p-3 lg:p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300" aria-label="Download PDF">
           <Download className="w-5 h-5 lg:w-6 lg:h-6" />
           <span className="absolute right-full mr-3 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200 hidden lg:block">
