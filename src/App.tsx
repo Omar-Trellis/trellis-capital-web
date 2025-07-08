@@ -9,6 +9,7 @@ import Investors from "./pages/Investors";
 import Sellers from "./pages/Sellers";
 import Contact from "./pages/Contact";
 import NotFound from "./pages/NotFound";
+import PitchDeck from "./pages/PitchDeck";
 
 const queryClient = new QueryClient();
 
@@ -28,6 +29,7 @@ const App = () => (
               <Route path="/investors" element={<Investors />} />
               <Route path="/sellers" element={<Sellers />} />
               <Route path="/contact" element={<Contact />} />
+              <Route path="/pitch-deck" element={<PitchDeck />} />
               <Route path="*" element={<NotFound />} />
             </Routes>
           </main>
