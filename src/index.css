@@ -180,6 +180,11 @@ All colors MUST be HSL.
     padding-bottom: 2rem;
   }
   
+  /* Special spacing for hero section to account for progress bar */
+  .slide-section:first-of-type {
+    padding-top: 3rem;
+  }
+  
   /* Adjust font sizes for better mobile readability */
   .slide-section h1 {
     font-size: clamp(1.75rem, 8vw, 3rem);
@@ -202,7 +207,7 @@ All colors MUST be HSL.
   .slide-section::after {
     content: '';
     position: absolute;
-    bottom: 1rem;
+    bottom: 2rem;
     left: 50%;
     transform: translateX(-50%);
     width: 40px;

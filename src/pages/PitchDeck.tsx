@@ -689,7 +689,7 @@ const PitchDeck = () => {
         </button>
       </div>
       {/* Slide 1: Hero */}
-      <section ref={el => slideRefs.current[0] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
+      <section ref={el => slideRefs.current[0] = el} className="min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section pt-8 md:pt-0">
         {/* Animated background gradient */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-transparent to-green-400/20 animate-pulse"></div>
@@ -698,29 +698,29 @@ const PitchDeck = () => {
         }}></div>
         </div>
 
-        <AnimatedSection animation="fade-up" className="relative z-10 text-center max-w-7xl mx-auto w-full py-8">
-          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-8 bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent leading-tight">
+        <AnimatedSection animation="fade-up" className="relative z-10 text-center max-w-7xl mx-auto w-full py-4 sm:py-8">
+          <h1 className="text-3xl sm:text-4xl md:text-7xl lg:text-8xl font-black mb-3 sm:mb-4 md:mb-8 bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent leading-tight">
             The $3.5M Question
           </h1>
-          <p className="text-lg sm:text-2xl md:text-3xl text-gray-200 mb-8 sm:mb-12 px-4 sm:px-0">
+          <p className="text-base sm:text-lg md:text-2xl lg:text-3xl text-gray-200 mb-6 sm:mb-8 md:mb-12 px-2 sm:px-4 md:px-0">
             How do you turn $500K into $3.5M in 36 months?
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-3 sm:gap-4 md:gap-8 mb-6 sm:mb-8 md:mb-12">
             {heroMetrics.map((metric, index) => <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up-scale">
-                <Card className="bg-gradient-to-br from-yellow-400/10 to-green-400/10 border-yellow-400/20 p-6 sm:p-8 hover:scale-105 transition-transform bg-slate-900">
-                  <div className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent mb-2">
+                <Card className="bg-gradient-to-br from-yellow-400/10 to-green-400/10 border-yellow-400/20 p-4 sm:p-6 md:p-8 hover:scale-105 transition-transform bg-slate-900">
+                  <div className="text-2xl sm:text-3xl md:text-4xl lg:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent mb-1 sm:mb-2">
                     {metric.value}
                   </div>
-                  <div className="text-gray-300 text-base sm:text-lg">{metric.label}</div>
+                  <div className="text-gray-300 text-sm sm:text-base md:text-lg">{metric.label}</div>
                 </Card>
               </AnimatedSection>)}
           </div>
 
           <AnimatedSection delay={400}>
-            <a href="#problem" className="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-500 to-green-500 hover:from-yellow-600 hover:to-green-600 text-black font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-500/25 group">
+            <a href="#problem" className="inline-flex items-center gap-2 sm:gap-3 bg-gradient-to-r from-yellow-500 to-green-500 hover:from-yellow-600 hover:to-green-600 text-black font-bold px-4 sm:px-6 md:px-8 py-2 sm:py-3 md:py-4 rounded-full text-sm sm:text-base md:text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-500/25 group">
               Discover The Hybrid Model
-              <ChevronRight className="w-5 h-5 rotate-90 group-hover:translate-y-1 transition-transform" />
+              <ChevronRight className="w-4 h-4 sm:w-5 sm:h-5 rotate-90 group-hover:translate-y-1 transition-transform" />
             </a>
           </AnimatedSection>
         </AnimatedSection>
