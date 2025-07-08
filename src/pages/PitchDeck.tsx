@@ -159,49 +159,39 @@ const PitchDeck = () => {
     let touchStartY = 0;
     let touchEndY = 0;
     let touchStartTime = 0;
+
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.changedTouches[0].screenY;
       touchStartTime = Date.now();
     };
+
     const handleTouchEnd = (e: TouchEvent) => {
       touchEndY = e.changedTouches[0].screenY;
       const touchEndTime = Date.now();
       const touchDuration = touchEndTime - touchStartTime;
-      
-      // Only handle quick swipes (less than 500ms) to avoid interfering with scrolling
-      if (touchDuration < 500) {
-        handleSwipeGesture();
-      }
-    };
-    const handleSwipeGesture = () => {
-      setHasInteracted(true);
-      const swipeThreshold = 100; // Increased from 50 to 100 for less sensitivity
-      const swipeDistance = Math.abs(touchStartY - touchEndY);
-      
-      // Only trigger if swipe is significant enough
-      if (swipeDistance > swipeThreshold) {
-        if (touchStartY - touchEndY > swipeThreshold) {
-          // Swipe up - go to next slide
-          if (currentSlide < slides.length - 1) {
-            scrollToSlide(currentSlide + 1);
-          }
-        } else if (touchEndY - touchStartY > swipeThreshold) {
-          // Swipe down - go to previous slide
-          if (currentSlide > 0) {
-            scrollToSlide(currentSlide - 1);
-          }
+      const swipeDistance = touchStartY - touchEndY;
+      const swipeThreshold = 100;
+
+      // Check for a quick, significant swipe
+      if (touchDuration < 500 && Math.abs(swipeDistance) > swipeThreshold) {
+        setHasInteracted(true);
+        // Swipe up (next slide)
+        if (swipeDistance > 0 && currentSlide < slides.length - 1) {
+          scrollToSlide(currentSlide + 1);
+        }
+        // Swipe down (previous slide)
+        else if (swipeDistance < 0 && currentSlide > 0) {
+          scrollToSlide(currentSlide - 1);
         }
       }
     };
+
     const container = containerRef.current;
     if (container) {
-      container.addEventListener('touchstart', handleTouchStart, {
-        passive: true
-      });
-      container.addEventListener('touchend', handleTouchEnd, {
-        passive: true
-      });
+      container.addEventListener('touchstart', handleTouchStart, { passive: true });
+      container.addEventListener('touchend', handleTouchEnd, { passive: true });
     }
+
     return () => {
       if (container) {
         container.removeEventListener('touchstart', handleTouchStart);
@@ -262,7 +252,7 @@ const PitchDeck = () => {
     name: 'Rob | COO',
     bio: ['6 personal properties', '$900K → $3.5M ARV achieved', 'Operations optimization', 'Makes it happen daily']
   }];
-  return <div ref={containerRef} className="min-h-screen bg-gray-900 relative pitch-deck-container">
+  return <div ref={containerRef} className="min-h-screen bg-gray-900 relative">
       {/* Slide Navigation Dots */}
       <nav className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden lg:block">
         <ul className="space-y-3">
@@ -352,7 +342,7 @@ const PitchDeck = () => {
         </button>
       </div>
       {/* Slide 1: Hero */}
-      <section ref={el => slideRefs.current[0] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[0] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         {/* Animated background gradient */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-transparent to-green-400/20 animate-pulse"></div>
@@ -390,7 +380,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 2: The Problem */}
-      <section id="problem" ref={el => slideRefs.current[1] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section id="problem" ref={el => slideRefs.current[1] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto w-full py-8">
           <AnimatedSection animation="fade-up">
             <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 sm:mb-12 text-center leading-tight px-4 sm:px-0">
@@ -464,7 +454,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 3: The Solution */}
-      <section ref={el => slideRefs.current[2] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[2] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -549,7 +539,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 4: Market Opportunity */}
-      <section ref={el => slideRefs.current[3] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[3] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -627,7 +617,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 5: The Numbers */}
-      <section ref={el => slideRefs.current[4] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[4] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -698,7 +688,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 6: Traction */}
-      <section ref={el => slideRefs.current[5] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[5] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -728,7 +718,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 7: Competitive Edge */}
-      <section ref={el => slideRefs.current[6] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[6] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -797,7 +787,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 8: Team */}
-      <section ref={el => slideRefs.current[7] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[7] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -836,7 +826,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 9: Growth Strategy */}
-      <section ref={el => slideRefs.current[8] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[8] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -941,7 +931,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 10: Financial Projections */}
-      <section ref={el => slideRefs.current[9] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[9] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -1026,7 +1016,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 11: The Ask */}
-      <section ref={el => slideRefs.current[10] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[10] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -1130,7 +1120,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 12: Timeline */}
-      <section ref={el => slideRefs.current[11] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[11] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -1208,7 +1198,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 13: Final CTA */}
-      <section ref={el => slideRefs.current[12] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+      <section ref={el => slideRefs.current[12] = el} className="min-h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden slide-section">
         <div className="max-w-7xl mx-auto text-center">
           <AnimatedSection animation="fade-up">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-2">
