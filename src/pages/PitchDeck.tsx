@@ -1079,51 +1079,51 @@ const PitchDeck = () => {
               Your Journey to Returns
             </h2>
 
-            <div className="relative">
+            <div className="relative max-w-4xl mx-auto">
               {/* Timeline line */}
-              <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-yellow-400 to-green-400"></div>
+              <div className="absolute left-1/2 transform -translate-x-1/2 w-1 h-full bg-gradient-to-b from-yellow-400 to-green-400 rounded-full"></div>
 
               {/* Timeline items */}
-              <div className="space-y-16">
+              <div className="space-y-20">
                 <AnimatedSection delay={100} animation="fade-up">
-                  <div className="flex items-center">
-                    <div className="flex-1 text-right pr-8">
-                      <h3 className="text-xl font-bold text-yellow-400">Day 1</h3>
+                  <div className="relative flex items-center">
+                    <div className="flex-1 text-right pr-12">
+                      <h3 className="text-xl font-bold text-yellow-400 mb-2">Day 1</h3>
                       <p className="text-gray-200">Capital deployed, first acquisition</p>
                     </div>
-                    <div className="w-8 h-8 bg-yellow-400 rounded-full relative z-10"></div>
-                    <div className="flex-1"></div>
+                    <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-yellow-400 rounded-full border-4 border-gray-900 z-10 shadow-lg shadow-yellow-400/50"></div>
+                    <div className="flex-1 pl-12"></div>
                   </div>
                 </AnimatedSection>
 
                 <AnimatedSection delay={200} animation="fade-up">
-                  <div className="flex items-center">
-                    <div className="flex-1"></div>
-                    <div className="w-8 h-8 bg-yellow-500 rounded-full relative z-10"></div>
-                    <div className="flex-1 pl-8">
-                      <h3 className="text-xl font-bold text-yellow-500">Day 30</h3>
+                  <div className="relative flex items-center">
+                    <div className="flex-1 pr-12"></div>
+                    <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-yellow-500 rounded-full border-4 border-gray-900 z-10 shadow-lg shadow-yellow-500/50"></div>
+                    <div className="flex-1 pl-12">
+                      <h3 className="text-xl font-bold text-yellow-500 mb-2">Day 30</h3>
                       <p className="text-gray-200">Renovations underway on 2-3 properties</p>
                     </div>
                   </div>
                 </AnimatedSection>
 
                 <AnimatedSection delay={300} animation="fade-up">
-                  <div className="flex items-center">
-                    <div className="flex-1 text-right pr-8">
-                      <h3 className="text-xl font-bold text-green-400">Day 90</h3>
+                  <div className="relative flex items-center">
+                    <div className="flex-1 text-right pr-12">
+                      <h3 className="text-xl font-bold text-green-400 mb-2">Day 90</h3>
                       <p className="text-gray-200">First flip hits market</p>
                     </div>
-                    <div className="w-8 h-8 bg-green-400 rounded-full relative z-10"></div>
-                    <div className="flex-1"></div>
+                    <div className="absolute left-1/2 transform -translate-x-1/2 w-8 h-8 bg-green-400 rounded-full border-4 border-gray-900 z-10 shadow-lg shadow-green-400/50"></div>
+                    <div className="flex-1 pl-12"></div>
                   </div>
                 </AnimatedSection>
 
                 <AnimatedSection delay={400} animation="fade-up">
-                  <div className="flex items-center">
-                    <div className="flex-1"></div>
-                    <div className="w-10 h-10 bg-gradient-to-r from-yellow-400 to-green-400 rounded-full relative z-10"></div>
-                    <div className="flex-1 pl-8">
-                      <h3 className="text-2xl font-bold text-green-400">Day 120</h3>
+                  <div className="relative flex items-center">
+                    <div className="flex-1 pr-12"></div>
+                    <div className="absolute left-1/2 transform -translate-x-1/2 w-10 h-10 bg-gradient-to-r from-yellow-400 to-green-400 rounded-full border-4 border-gray-900 z-10 shadow-lg shadow-green-400/50"></div>
+                    <div className="flex-1 pl-12">
+                      <h3 className="text-2xl font-bold text-green-400 mb-2">Day 120</h3>
                       <p className="text-yellow-400 text-lg font-semibold">First investor distributions</p>
                     </div>
                   </div>
