@@ -476,7 +476,7 @@ const PitchDeck = () => {
           </div>
 
           <AnimatedSection delay={300}>
-            <Card className="mt-12 bg-gradient-to-r from-yellow-400/10 to-green-400/10 border-white/20 p-12 text-center">
+            <Card className="mt-12 bg-gradient-to-r from-yellow-400/10 to-green-400/10 border-white/20 p-12 text-center bg-slate-900">
               <h2 className="text-3xl font-bold text-white mb-4">Deploy Capital Based on YOUR Goals</h2>
               <p className="text-xl text-gray-300">Not what the market dictates</p>
             </Card>
