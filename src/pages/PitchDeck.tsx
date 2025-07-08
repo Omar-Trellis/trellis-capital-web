@@ -655,7 +655,7 @@ const PitchDeck = () => {
           </div>
 
           <AnimatedSection delay={500}>
-            <Card className="bg-gradient-to-r from-yellow-400/10 to-green-400/10 border-white/20 p-12 text-center">
+            <Card className="bg-gradient-to-r from-yellow-400/10 to-green-400/10 border-white/20 p-12 text-center bg-slate-800">
               <h2 className="text-3xl font-bold text-white mb-4">Starting Fresh To Scale Fast</h2>
               <p className="text-xl text-gray-400">New entity. Proven team. Institutional approach.</p>
             </Card>
