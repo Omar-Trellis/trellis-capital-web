@@ -1171,17 +1171,17 @@ const PitchDeck = () => {
 
           <AnimatedSection delay={200}>
             <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-16">
-              <Card className="bg-gradient-to-br from-yellow-400/10 to-yellow-500/10 border-yellow-400/30 p-8 text-center hover:border-yellow-400/50 transition-colors">
+              <Card className="bg-gradient-to-br from-yellow-400/10 to-yellow-500/10 border-yellow-400/30 p-8 text-center hover:border-yellow-400/50 transition-colors bg-slate-950">
                 <div className="text-5xl mb-4">💰</div>
                 <h3 className="text-xl font-bold text-yellow-400 mb-2">Real Cash Flow</h3>
                 <p className="text-gray-300">Not paper profits</p>
               </Card>
-              <Card className="bg-gradient-to-br from-green-400/10 to-green-500/10 border-green-400/30 p-8 text-center hover:border-green-400/50 transition-colors">
+              <Card className="bg-gradient-to-br from-green-400/10 to-green-500/10 border-green-400/30 p-8 text-center hover:border-green-400/50 transition-colors bg-slate-950">
                 <div className="text-5xl mb-4">🛡️</div>
                 <h3 className="text-xl font-bold text-green-400 mb-2">Tax Protection</h3>
                 <p className="text-gray-300">Keep what you earn</p>
               </Card>
-              <Card className="bg-gradient-to-br from-purple-400/10 to-purple-500/10 border-purple-400/30 p-8 text-center hover:border-purple-400/50 transition-colors">
+              <Card className="bg-gradient-to-br from-purple-400/10 to-purple-500/10 border-purple-400/30 p-8 text-center hover:border-purple-400/50 transition-colors bg-slate-950">
                 <div className="text-5xl mb-4">🚀</div>
                 <h3 className="text-xl font-bold text-purple-400 mb-2">Growth Engine</h3>
                 <p className="text-gray-300">Scale exponentially</p>
