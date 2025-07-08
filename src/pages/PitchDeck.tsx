@@ -525,7 +525,7 @@ const PitchDeck = () => {
             </AnimatedSection>
 
             <AnimatedSection delay={200} animation="slide-left">
-              <Card className="bg-gradient-to-br from-green-400/20 to-green-500/10 border-green-400/50 p-8 h-full bg-slate-600">
+              <Card className="bg-gradient-to-br from-green-400/20 to-green-500/10 border-green-400/50 p-8 h-full bg-slate-950">
                 <h2 className="text-2xl font-bold text-white mb-6">Cleveland Gold Rush</h2>
                 <div className="space-y-4">
                   <div className="flex justify-between items-center py-3 border-b border-white/10">
