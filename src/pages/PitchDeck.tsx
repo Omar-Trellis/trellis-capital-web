@@ -634,7 +634,7 @@ const PitchDeck = () => {
         </div>
 
         {/* Mobile Navigation Buttons */}
-        <div className="fixed right-4 bottom-20 z-50 flex flex-col gap-2">
+        <div className="fixed right-4 bottom-32 z-50 flex flex-col gap-2">
           <button
             onClick={() => currentSlide > 0 && scrollToSlide(currentSlide - 1)}
             disabled={currentSlide === 0}
@@ -667,7 +667,7 @@ const PitchDeck = () => {
       </div>
 
       {/* Floating Action Buttons */}
-      <div className="fixed bottom-8 right-8 lg:bottom-8 lg:right-8 md:bottom-32 md:right-4 z-50 flex flex-col gap-4">
+      <div className="fixed bottom-8 right-4 z-50 flex flex-col gap-4">
         <Dialog>
           <DialogTrigger asChild>
             <button className="group relative bg-blue-600 hover:bg-blue-500 text-white p-3 lg:p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300" aria-label="View Investor Opportunity">
@@ -1184,32 +1184,35 @@ const PitchDeck = () => {
           {/* Growth Chart */}
           <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-4 sm:p-8 mb-8 sm:mb-12">
             <h2 className="text-xl sm:text-2xl font-bold text-center text-white mb-4 sm:mb-8">36-Month Growth Trajectory</h2>
-            <div className="flex items-end justify-around h-48 sm:h-64 px-2 sm:px-4">
+            <div className="flex items-end justify-around h-64 sm:h-80 px-2 sm:px-4">
               {[{
               label: 'Start',
               value: '$500K',
-              height: '30%'
+              height: 30
             }, {
               label: 'Year 1',
               value: '$1.2M',
-              height: '50%'
+              height: 50
             }, {
               label: 'Year 2',
               value: '$2.8M',
-              height: '75%'
+              height: 75
             }, {
               label: 'Year 3',
               value: '$5M+',
-              height: '100%'
+              height: 100
             }].map((bar, index) => <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up">
                   <div className="flex flex-col items-center">
                     <div className="relative mb-2">
                       <div className="text-sm sm:text-lg font-bold text-yellow-400 mb-1 sm:mb-2">{bar.value}</div>
-                      <div className="w-12 sm:w-20 bg-gradient-to-t from-yellow-400 to-green-400 rounded-t-lg" style={{
-                    height: `${parseInt(bar.height) * 2}px`
-                  }}></div>
+                      <div 
+                        className="w-16 sm:w-24 md:w-28 bg-gradient-to-t from-yellow-400 to-green-400 rounded-t-lg transition-all duration-1000 ease-out" 
+                        style={{
+                          height: `${(bar.height / 100) * 240}px`
+                        }}
+                      ></div>
                     </div>
-                    <div className="text-gray-200 text-xs sm:text-sm">{bar.label}</div>
+                    <div className="text-gray-200 text-xs sm:text-sm font-medium">{bar.label}</div>
                   </div>
                 </AnimatedSection>)}
             </div>
