@@ -185,6 +185,17 @@ All colors MUST be HSL.
     padding-top: 3rem;
   }
   
+  /* Very small screens optimization */
+  @media (max-height: 640px) {
+    .slide-section:first-of-type {
+      padding-top: 2rem;
+    }
+    .slide-section {
+      padding-top: 1rem;
+      padding-bottom: 1rem;
+    }
+  }
+  
   /* Adjust font sizes for better mobile readability */
   .slide-section h1 {
     font-size: clamp(1.75rem, 8vw, 3rem);

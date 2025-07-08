@@ -182,3 +182,22 @@ This is a React SPA for Trellis Capital Group built with Vite, TypeScript, and T
   - Shows users they can scroll to next content
   - Automatically hidden on the last slide
   - Repositioned download button to avoid conflicts with nav buttons
+
+### Mobile Hero Section Spacing Improvements (2025-01-08)
+- **Progress Bar Spacing:**
+  - Added 48px top padding to hero section on mobile to create space from progress bar
+  - Reduced to 32px on very small screens (height < 640px) for better fit
+  - Desktop maintains original spacing without top padding
+- **Content Optimization:**
+  - Reduced hero title size from 3xl to 2xl on smallest screens for better fit
+  - Compressed spacing between elements (mb-3 vs mb-4) on mobile
+  - Smaller button and icon sizes for better touch targets
+  - Responsive padding for metric cards (p-4 on mobile vs p-8 on desktop)
+- **Typography Scaling:**
+  - Hero title: 3xl → 4xl → 7xl → 8xl (mobile → tablet → desktop → large)
+  - Subtitle: base → lg → 2xl → 3xl responsive scaling
+  - Button text: sm → base → lg responsive scaling
+- **Layout Adjustments:**
+  - Reduced gap between metric cards on mobile (gap-3 vs gap-8)
+  - Better responsive padding and margins throughout
+  - Improved content container padding for mobile viewing
