@@ -413,7 +413,7 @@ const PitchDeck = () => {
 
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
             <AnimatedSection delay={100} animation="slide-right">
-              <Card className="bg-gradient-to-br from-yellow-400/10 to-yellow-500/10 border-yellow-400/30 p-8 h-full hover:border-yellow-400/50 transition-colors bg-slate-600">
+              <Card className="bg-gradient-to-br from-yellow-400/10 to-yellow-500/10 border-yellow-400/30 p-8 h-full hover:border-yellow-400/50 transition-colors bg-slate-900">
                 <h2 className="text-3xl font-bold bg-gradient-to-r from-yellow-400 to-yellow-500 bg-clip-text text-transparent mb-2">
                   Lightning Strategy
                 </h2>
