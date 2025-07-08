@@ -148,6 +148,22 @@ All colors MUST be HSL.
   }
 }
 
+/* Smooth scrolling for pitch deck */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+  
+  .snap-container {
+    scroll-snap-type: y mandatory;
+    scroll-behavior: smooth;
+  }
+  
+  .snap-start {
+    scroll-snap-align: start;
+  }
+}
+
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -163,5 +179,66 @@ All colors MUST be HSL.
   .animate-spin,
   .animate-pulse {
     animation: none !important;
+  }
+}
+
+/* Print styles for PDF export */
+@media print {
+  /* Hide navigation and controls */
+  nav,
+  .fixed,
+  [aria-label="Go to"],
+  [aria-label="Download PDF"] {
+    display: none !important;
+  }
+  
+  /* Reset page styling for print */
+  body {
+    margin: 0;
+    padding: 0;
+    background: white !important;
+  }
+  
+  /* Each section on its own page */
+  section {
+    page-break-after: always;
+    page-break-inside: avoid;
+    min-height: 100vh !important;
+    background: white !important;
+    color: black !important;
+    padding: 2cm !important;
+    box-sizing: border-box;
+  }
+  
+  /* Improve text readability */
+  .text-gray-300,
+  .text-gray-400,
+  .text-gray-500 {
+    color: #4a4a4a !important;
+  }
+  
+  .text-white {
+    color: black !important;
+  }
+  
+  /* Ensure cards are visible */
+  .bg-white\/5,
+  .bg-gray-900,
+  .bg-gradient-to-br {
+    background: white !important;
+    border: 1px solid #ddd !important;
+  }
+  
+  /* Make gradient text readable */
+  .bg-gradient-to-r {
+    background: none !important;
+    color: #1a1a1a !important;
+    font-weight: bold !important;
+  }
+  
+  /* Remove animations */
+  * {
+    animation: none !important;
+    transition: none !important;
   }
 }

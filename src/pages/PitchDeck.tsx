@@ -1,15 +1,188 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { AnimatedSection } from '@/components/AnimatedSection';
 import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
-import { ArrowRight, TrendingUp, Shield, Users, Target, Award, ChevronRight, Clock, DollarSign } from 'lucide-react';
+import { ArrowRight, TrendingUp, Shield, Users, Target, Award, ChevronRight, Clock, DollarSign, Download } from 'lucide-react';
 import { Card } from '@/components/ui/card';
+import { cn } from '@/lib/utils';
 
 const PitchDeck = () => {
-  const { elementRef: heroRef, isIntersecting: heroVisible } = useIntersectionObserver({
-    threshold: 0.1,
-    triggerOnce: true
-  });
+
+  const [currentSlide, setCurrentSlide] = useState(0);
+  const slideRefs = useRef<(HTMLElement | null)[]>([]);
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  // Slide data for navigation
+  const slides = [
+    { id: 'hero', title: 'The $3.5M Question' },
+    { id: 'problem', title: 'The Problem' },
+    { id: 'solution', title: 'The Solution' },
+    { id: 'market', title: 'Market Opportunity' },
+    { id: 'numbers', title: 'The Numbers' },
+    { id: 'traction', title: 'Traction' },
+    { id: 'edge', title: 'Competitive Edge' },
+    { id: 'team', title: 'The Team' },
+    { id: 'growth', title: 'Growth Strategy' },
+    { id: 'projections', title: 'Financial Projections' },
+    { id: 'ask', title: 'The Ask' },
+    { id: 'timeline', title: 'Timeline' },
+    { id: 'cta', title: 'Final CTA' }
+  ];
+
+  // Handle slide navigation
+  const scrollToSlide = (index: number) => {
+    if (slideRefs.current[index]) {
+      slideRefs.current[index]?.scrollIntoView({
+        behavior: 'smooth',
+        block: 'start'
+      });
+    }
+  };
+
+  // Track current slide based on scroll position
+  useEffect(() => {
+    const slideViewTimes = new Map<number, number>();
+    let lastSlide = 0;
+    let slideStartTime = Date.now();
+
+    const handleScroll = () => {
+      const scrollPosition = window.scrollY + window.innerHeight / 3;
+      
+      slideRefs.current.forEach((ref, index) => {
+        if (ref) {
+          const { offsetTop, offsetHeight } = ref;
+          if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
+            // Track slide change
+            if (index !== lastSlide) {
+              // Record time spent on previous slide
+              const timeSpent = Date.now() - slideStartTime;
+              const previousTime = slideViewTimes.get(lastSlide) || 0;
+              slideViewTimes.set(lastSlide, previousTime + timeSpent);
+              
+              // Log analytics (in production, send to analytics service)
+              console.log(`Slide ${slides[lastSlide].title}: ${Math.round(timeSpent / 1000)}s`);
+              
+              // Update current slide
+              lastSlide = index;
+              slideStartTime = Date.now();
+              
+              // Track slide view
+              console.log(`Viewing slide: ${slides[index].title}`);
+            }
+            
+            setCurrentSlide(index);
+          }
+        }
+      });
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll(); // Call once to set initial position
+
+    // Clean up and log final analytics on unmount
+    return () => {
+      window.removeEventListener('scroll', handleScroll);
+      
+      // Log total time on current slide
+      const timeSpent = Date.now() - slideStartTime;
+      const previousTime = slideViewTimes.get(lastSlide) || 0;
+      slideViewTimes.set(lastSlide, previousTime + timeSpent);
+      
+      // Log session summary
+      console.log('Pitch Deck Session Summary:');
+      slideViewTimes.forEach((time, slideIndex) => {
+        if (time > 0) {
+          console.log(`- ${slides[slideIndex].title}: ${Math.round(time / 1000)}s`);
+        }
+      });
+    };
+  }, [slides]);
+
+  // Keyboard navigation
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      switch (e.key) {
+        case 'ArrowDown':
+        case 'PageDown':
+          e.preventDefault();
+          if (currentSlide < slides.length - 1) {
+            scrollToSlide(currentSlide + 1);
+          }
+          break;
+        case 'ArrowUp':
+        case 'PageUp':
+          e.preventDefault();
+          if (currentSlide > 0) {
+            scrollToSlide(currentSlide - 1);
+          }
+          break;
+        case 'Home':
+          e.preventDefault();
+          scrollToSlide(0);
+          break;
+        case 'End':
+          e.preventDefault();
+          scrollToSlide(slides.length - 1);
+          break;
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentSlide, slides.length]);
+
+  // Touch gesture support for mobile
+  useEffect(() => {
+    let touchStartY = 0;
+    let touchEndY = 0;
+
+    const handleTouchStart = (e: TouchEvent) => {
+      touchStartY = e.changedTouches[0].screenY;
+    };
+
+    const handleTouchEnd = (e: TouchEvent) => {
+      touchEndY = e.changedTouches[0].screenY;
+      handleSwipeGesture();
+    };
+
+    const handleSwipeGesture = () => {
+      const swipeThreshold = 50;
+      
+      if (touchStartY - touchEndY > swipeThreshold) {
+        // Swipe up - go to next slide
+        if (currentSlide < slides.length - 1) {
+          scrollToSlide(currentSlide + 1);
+        }
+      }
+      
+      if (touchEndY - touchStartY > swipeThreshold) {
+        // Swipe down - go to previous slide
+        if (currentSlide > 0) {
+          scrollToSlide(currentSlide - 1);
+        }
+      }
+    };
+
+    const container = containerRef.current;
+    if (container) {
+      container.addEventListener('touchstart', handleTouchStart, { passive: true });
+      container.addEventListener('touchend', handleTouchEnd, { passive: true });
+    }
+
+    return () => {
+      if (container) {
+        container.removeEventListener('touchstart', handleTouchStart);
+        container.removeEventListener('touchend', handleTouchEnd);
+      }
+    };
+  }, [currentSlide, slides.length]);
+
+  // Handle PDF download
+  const handleDownloadPDF = () => {
+    // For now, we'll just show an alert. In a real implementation,
+    // you would use a library like jsPDF or react-to-pdf
+    window.print();
+  };
 
   // Metric data
   const heroMetrics = [
@@ -69,9 +242,70 @@ const PitchDeck = () => {
   ];
 
   return (
-    <div className="min-h-screen bg-gray-900">
+    <div ref={containerRef} className="min-h-screen bg-gray-900 relative">
+      {/* Slide Navigation Dots */}
+      <nav className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden lg:block">
+        <ul className="space-y-3">
+          {slides.map((slide, index) => (
+            <li key={slide.id}>
+              <button
+                onClick={() => scrollToSlide(index)}
+                className={cn(
+                  "group relative flex items-center justify-end",
+                  "transition-all duration-300"
+                )}
+                aria-label={`Go to ${slide.title}`}
+              >
+                <span
+                  className={cn(
+                    "absolute right-8 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap",
+                    "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
+                    "bg-gray-800 text-white shadow-lg",
+                    currentSlide === index && "opacity-100"
+                  )}
+                >
+                  {slide.title}
+                </span>
+                <span
+                  className={cn(
+                    "block w-3 h-3 rounded-full transition-all duration-300",
+                    currentSlide === index
+                      ? "bg-yellow-400 scale-125 shadow-lg shadow-yellow-400/50"
+                      : "bg-gray-600 hover:bg-gray-400"
+                  )}
+                />
+              </button>
+            </li>
+          ))}
+        </ul>
+      </nav>
+
+      {/* Progress Bar */}
+      <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-gray-800">
+        <div
+          className="h-full bg-gradient-to-r from-yellow-400 to-green-400 transition-all duration-300"
+          style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
+        />
+      </div>
+
+      {/* Floating Action Buttons */}
+      <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
+        <button
+          onClick={handleDownloadPDF}
+          className="group relative bg-gray-900 hover:bg-gray-800 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
+          aria-label="Download PDF"
+        >
+          <Download className="w-6 h-6" />
+          <span className="absolute right-full mr-3 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+            Download PDF
+          </span>
+        </button>
+      </div>
       {/* Slide 1: Hero */}
-      <section ref={heroRef} className="min-h-screen relative flex items-center justify-center px-8 md:px-16 overflow-hidden">
+      <section 
+        ref={(el) => slideRefs.current[0] = el} 
+        className="min-h-screen relative flex items-center justify-center px-8 md:px-16 overflow-hidden snap-start"
+      >
         {/* Animated background gradient */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-transparent to-green-400/20 animate-pulse"></div>
@@ -109,7 +343,11 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 2: The Problem */}
-      <section id="problem" className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        id="problem" 
+        ref={(el) => slideRefs.current[1] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -183,7 +421,10 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 3: The Solution */}
-      <section className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        ref={(el) => slideRefs.current[2] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -268,7 +509,10 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 4: Market Opportunity */}
-      <section className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        ref={(el) => slideRefs.current[3] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -346,7 +590,10 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 5: The Numbers */}
-      <section className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        ref={(el) => slideRefs.current[4] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -417,7 +664,10 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 6: Traction */}
-      <section className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        ref={(el) => slideRefs.current[5] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -449,7 +699,10 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 7: Competitive Edge */}
-      <section className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        ref={(el) => slideRefs.current[6] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -518,7 +771,10 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 8: Team */}
-      <section className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        ref={(el) => slideRefs.current[7] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -561,7 +817,10 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 9: Growth Strategy */}
-      <section className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        ref={(el) => slideRefs.current[8] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -658,7 +917,10 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 10: Financial Projections */}
-      <section className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        ref={(el) => slideRefs.current[9] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -743,7 +1005,10 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 11: The Ask */}
-      <section className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        ref={(el) => slideRefs.current[10] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -850,7 +1115,10 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 12: Timeline */}
-      <section className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        ref={(el) => slideRefs.current[11] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -928,7 +1196,10 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 13: Final CTA */}
-      <section className="min-h-screen flex items-center justify-center px-8 md:px-16">
+      <section 
+        ref={(el) => slideRefs.current[12] = el}
+        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
+      >
         <div className="max-w-7xl mx-auto text-center">
           <AnimatedSection animation="fade-up">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-2">
