@@ -30,24 +30,36 @@ This is a React SPA for Trellis Capital Group built with Vite, TypeScript, and T
 - **UI Components**: shadcn/ui (50+ pre-built components in `src/components/ui/`)
 - **State Management**: TanStack Query (React Query)
 - **Forms**: React Hook Form with Zod validation
+- **3D Graphics**: Three.js with React Three Fiber and Drei
+- **Charts**: Recharts for data visualization
+- **Touch Gestures**: Custom swipe detection for mobile
 
 ### Project Structure
-- `/src/pages/` - Route components (Home, Investors, Sellers, Contact, NotFound)
+- `/src/pages/` - Route components (Home, Investors, Sellers, Contact, PitchDeck, NotFound)
 - `/src/components/` - Reusable components and UI library
-- `/src/hooks/` - Custom React hooks (useParallax, useIntersectionObserver, etc.)
+- `/src/hooks/` - Custom React hooks (useParallax, useIntersectionObserver, useCountUpAnimation, usePerformanceMonitor)
+- `/src/data/` - Static data files (caseStudies.ts, teamData.ts)
 - `/src/lib/` - Utility functions
 - Default route now displays professional Home page
 
 ### Key Patterns
 1. **Component Architecture**: Modular components with shadcn/ui as the base UI library
 2. **Path Aliases**: Use `@/` for imports (maps to `./src/`)
-3. **TypeScript**: Relaxed type checking enabled (noImplicitAny: false)
+3. **TypeScript**: Relaxed type checking enabled (noImplicitAny: false, strictNullChecks: false)
 4. **Styling**: Tailwind with CSS variables for theming, Montserrat as primary font
-5. **Animations**: Custom Tailwind animations (fade-in, fade-up, slide-left, slide-right, scale-in, glow)
-6. **Professional Design**: Enhanced color scheme with navy blues and bronze accents inspired by premium financial sites
+5. **Animations**: Custom Tailwind animations (fade-in, fade-up, slide-left, slide-right, scale-in, glow, pulse-slow)
+6. **Professional Design**: Enhanced color scheme with navy blues (navy-600 to navy-900) and bronze accents (bronze-400 to bronze-600)
+
+### Performance Patterns
+- **Singleton Pattern**: IntersectionObserverManager for shared observer instances
+- **Lazy Loading**: React.lazy() for heavy components, progressive image loading
+- **Animation Optimization**: RAF-based counters instead of Framer Motion for better performance
+- **GPU Acceleration**: CSS transforms for smooth animations
+- **Performance Monitoring**: Built-in hooks for tracking Core Web Vitals
 
 ### Development Notes
 - Hot Module Replacement (HMR) enabled via Vite
+- IPv6 support enabled for development server
 - Lovable tagger active in development mode for component tracking
 - No test framework currently configured
 - Originally created with Lovable.dev visual development platform
@@ -126,3 +138,27 @@ This is a React SPA for Trellis Capital Group built with Vite, TypeScript, and T
   - Added ARIA labels for all navigation elements
   - Keyboard navigation fully accessible
   - Respects prefers-reduced-motion preferences
+
+### Pitch Deck Mobile & PDF Optimizations (2025-01-08)
+- **Mobile Viewport Enhancements:**
+  - Implemented 100dvh (dynamic viewport height) for perfect mobile fit
+  - Added responsive padding and font scaling with clamp()
+  - Ensured each slide fits within mobile viewport with overflow handling
+  - Added spacing between slides for visual separation
+- **Content Responsiveness:**
+  - Optimized all text sizes for mobile readability
+  - Adjusted grid layouts to stack properly on small screens
+  - Made cards and metrics responsive with appropriate padding
+  - Fixed growth chart scaling for mobile devices
+- **Enhanced PDF Export:**
+  - Configured A4 page size with proper margins
+  - Each slide prints on its own page with page-break controls
+  - Converted dark theme to white background for printing
+  - Replaced gradient text with high-contrast solid colors
+  - Hide all navigation elements and interactive components
+  - Optimized typography sizes for print (28pt h1, 20pt h2, etc.)
+- **Swipe Indicator:**
+  - Added visual swipe indicator for first-time mobile users
+  - Indicator disappears after first interaction
+  - Animated up/down arrows to show swipe direction
+  - Only visible on mobile devices on the first slide

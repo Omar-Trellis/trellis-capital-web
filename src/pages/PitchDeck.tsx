@@ -7,6 +7,7 @@ import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
 const PitchDeck = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
+  const [hasInteracted, setHasInteracted] = useState(false);
   const slideRefs = useRef<(HTMLElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -54,6 +55,7 @@ const PitchDeck = () => {
 
   // Handle slide navigation
   const scrollToSlide = (index: number) => {
+    setHasInteracted(true);
     if (slideRefs.current[index]) {
       slideRefs.current[index]?.scrollIntoView({
         behavior: 'smooth',
@@ -164,6 +166,7 @@ const PitchDeck = () => {
       handleSwipeGesture();
     };
     const handleSwipeGesture = () => {
+      setHasInteracted(true);
       const swipeThreshold = 50;
       if (touchStartY - touchEndY > swipeThreshold) {
         // Swipe up - go to next slide
@@ -247,7 +250,7 @@ const PitchDeck = () => {
     name: 'Rob | COO',
     bio: ['6 personal properties', '$900K → $3.5M ARV achieved', 'Operations optimization', 'Makes it happen daily']
   }];
-  return <div ref={containerRef} className="min-h-screen bg-gray-900 relative">
+  return <div ref={containerRef} className="min-h-screen bg-gray-900 relative pitch-deck-container">
       {/* Slide Navigation Dots */}
       <nav className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden lg:block">
         <ul className="space-y-3">
@@ -271,10 +274,24 @@ const PitchDeck = () => {
 
       {/* Mobile Slide Indicator */}
       <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 lg:hidden">
-        <div className="flex items-center gap-2 bg-gray-900/90 backdrop-blur-sm px-4 py-2 rounded-full">
-          <span className="text-sm text-gray-400">Slide</span>
-          <span className="text-sm font-bold text-yellow-400">{currentSlide + 1}</span>
-          <span className="text-sm text-gray-400">of {slides.length}</span>
+        <div className="flex flex-col items-center gap-2">
+          <div className="flex items-center gap-2 bg-gray-900/90 backdrop-blur-sm px-4 py-2 rounded-full">
+            <span className="text-sm text-gray-400">Slide</span>
+            <span className="text-sm font-bold text-yellow-400">{currentSlide + 1}</span>
+            <span className="text-sm text-gray-400">of {slides.length}</span>
+          </div>
+          {/* Swipe Indicator - only show on first slide and if user hasn't interacted */}
+          {currentSlide === 0 && !hasInteracted && (
+            <div className="flex items-center gap-2 text-xs text-gray-400 animate-pulse swipe-indicator">
+              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+                <path d="M8 6L12 2L16 6" />
+                <path d="M12 2V14" />
+                <path d="M8 18L12 22L16 18" />
+                <path d="M12 22V10" />
+              </svg>
+              <span>Swipe to navigate</span>
+            </div>
+          )}
         </div>
       </div>
 
@@ -288,7 +305,7 @@ const PitchDeck = () => {
         </button>
       </div>
       {/* Slide 1: Hero */}
-      <section ref={el => slideRefs.current[0] = el} className="min-h-screen relative flex items-center justify-center px-8 md:px-16 overflow-hidden snap-start">
+      <section ref={el => slideRefs.current[0] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         {/* Animated background gradient */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-transparent to-green-400/20 animate-pulse"></div>
@@ -297,27 +314,27 @@ const PitchDeck = () => {
         }}></div>
         </div>
 
-        <AnimatedSection animation="fade-up" className="relative z-10 text-center max-w-7xl mx-auto">
-          <h1 className="text-5xl md:text-7xl lg:text-8xl font-black mb-8 bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent">
+        <AnimatedSection animation="fade-up" className="relative z-10 text-center max-w-7xl mx-auto w-full py-8">
+          <h1 className="text-4xl sm:text-5xl md:text-7xl lg:text-8xl font-black mb-4 sm:mb-8 bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent leading-tight">
             The $3.5M Question
           </h1>
-          <p className="text-2xl md:text-3xl text-gray-200 mb-12">
+          <p className="text-lg sm:text-2xl md:text-3xl text-gray-200 mb-8 sm:mb-12 px-4 sm:px-0">
             How do you turn $500K into $3.5M in 36 months?
           </p>
 
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-4 sm:gap-8 mb-8 sm:mb-12">
             {heroMetrics.map((metric, index) => <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up-scale">
-                <Card className="bg-gradient-to-br from-yellow-400/10 to-green-400/10 border-yellow-400/20 p-8 hover:scale-105 transition-transform bg-slate-900">
-                  <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent mb-2">
+                <Card className="bg-gradient-to-br from-yellow-400/10 to-green-400/10 border-yellow-400/20 p-6 sm:p-8 hover:scale-105 transition-transform bg-slate-900">
+                  <div className="text-3xl sm:text-4xl md:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent mb-2">
                     {metric.value}
                   </div>
-                  <div className="text-gray-300 text-lg">{metric.label}</div>
+                  <div className="text-gray-300 text-base sm:text-lg">{metric.label}</div>
                 </Card>
               </AnimatedSection>)}
           </div>
 
           <AnimatedSection delay={400}>
-            <a href="#problem" className="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-500 to-green-500 hover:from-yellow-600 hover:to-green-600 text-black font-bold px-8 py-4 rounded-full text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-500/25 group">
+            <a href="#problem" className="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-500 to-green-500 hover:from-yellow-600 hover:to-green-600 text-black font-bold px-6 sm:px-8 py-3 sm:py-4 rounded-full text-base sm:text-lg transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-500/25 group">
               Discover The Hybrid Model
               <ChevronRight className="w-5 h-5 rotate-90 group-hover:translate-y-1 transition-transform" />
             </a>
@@ -326,18 +343,18 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 2: The Problem */}
-      <section id="problem" ref={el => slideRefs.current[1] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
-        <div className="max-w-7xl mx-auto">
+      <section id="problem" ref={el => slideRefs.current[1] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
+        <div className="max-w-7xl mx-auto w-full py-8">
           <AnimatedSection animation="fade-up">
-            <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
+            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-6 sm:mb-12 text-center leading-tight px-4 sm:px-0">
               Every Investor Faces The Same Dilemma
             </h1>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mb-12">
+          <div className="grid grid-cols-1 lg:grid-cols-2 gap-4 sm:gap-8 mb-8 sm:mb-12">
             <AnimatedSection delay={100} animation="slide-right">
-              <Card className="bg-gradient-to-br from-red-500/10 to-red-600/10 border-red-500/30 p-8 h-full hover:border-red-400/50 transition-colors bg-slate-900">
-                <h3 className="text-2xl font-bold text-yellow-400 mb-6">The Cash Flow Hunter</h3>
+              <Card className="bg-gradient-to-br from-red-500/10 to-red-600/10 border-red-500/30 p-6 sm:p-8 h-full hover:border-red-400/50 transition-colors bg-slate-900">
+                <h3 className="text-xl sm:text-2xl font-bold text-yellow-400 mb-4 sm:mb-6">The Cash Flow Hunter</h3>
                 <ul className="space-y-4 text-gray-200">
                   <li className="flex items-start">
                     <ChevronRight className="w-5 h-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
@@ -363,8 +380,8 @@ const PitchDeck = () => {
             </AnimatedSection>
 
             <AnimatedSection delay={200} animation="slide-left">
-              <Card className="bg-gradient-to-br from-red-500/10 to-red-600/10 border-red-500/30 p-8 h-full hover:border-red-400/50 transition-colors bg-slate-900">
-                <h3 className="text-2xl font-bold text-yellow-400 mb-6">The Tax Strategist</h3>
+              <Card className="bg-gradient-to-br from-red-500/10 to-red-600/10 border-red-500/30 p-6 sm:p-8 h-full hover:border-red-400/50 transition-colors bg-slate-900">
+                <h3 className="text-xl sm:text-2xl font-bold text-yellow-400 mb-4 sm:mb-6">The Tax Strategist</h3>
                 <ul className="space-y-4 text-gray-200">
                   <li className="flex items-start">
                     <ChevronRight className="w-5 h-5 text-yellow-400 mt-0.5 mr-3 flex-shrink-0" />
@@ -391,16 +408,16 @@ const PitchDeck = () => {
           </div>
 
           <AnimatedSection delay={300}>
-            <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-8 text-center">
-              <h2 className="text-3xl font-bold text-red-400 mb-4">Traditional Funds Force You To Choose</h2>
-              <p className="text-xl text-gray-300">What if you didn't have to?</p>
+            <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6 sm:p-8 text-center">
+              <h2 className="text-2xl sm:text-3xl font-bold text-red-400 mb-2 sm:mb-4">Traditional Funds Force You To Choose</h2>
+              <p className="text-lg sm:text-xl text-gray-300">What if you didn't have to?</p>
             </Card>
           </AnimatedSection>
         </div>
       </section>
 
       {/* Slide 3: The Solution */}
-      <section ref={el => slideRefs.current[2] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
+      <section ref={el => slideRefs.current[2] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -485,7 +502,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 4: Market Opportunity */}
-      <section ref={el => slideRefs.current[3] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
+      <section ref={el => slideRefs.current[3] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -563,7 +580,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 5: The Numbers */}
-      <section ref={el => slideRefs.current[4] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
+      <section ref={el => slideRefs.current[4] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -634,7 +651,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 6: Traction */}
-      <section ref={el => slideRefs.current[5] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
+      <section ref={el => slideRefs.current[5] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -664,7 +681,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 7: Competitive Edge */}
-      <section ref={el => slideRefs.current[6] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
+      <section ref={el => slideRefs.current[6] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -733,7 +750,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 8: Team */}
-      <section ref={el => slideRefs.current[7] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
+      <section ref={el => slideRefs.current[7] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -772,7 +789,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 9: Growth Strategy */}
-      <section ref={el => slideRefs.current[8] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
+      <section ref={el => slideRefs.current[8] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -781,9 +798,9 @@ const PitchDeck = () => {
           </AnimatedSection>
 
           {/* Growth Chart */}
-          <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-8 mb-12">
-            <h2 className="text-2xl font-bold text-center text-white mb-8">36-Month Growth Trajectory</h2>
-            <div className="flex items-end justify-around h-64 px-4">
+          <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-4 sm:p-8 mb-8 sm:mb-12">
+            <h2 className="text-xl sm:text-2xl font-bold text-center text-white mb-4 sm:mb-8">36-Month Growth Trajectory</h2>
+            <div className="flex items-end justify-around h-48 sm:h-64 px-2 sm:px-4">
               {[{
               label: 'Start',
               value: '$500K',
@@ -803,12 +820,12 @@ const PitchDeck = () => {
             }].map((bar, index) => <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up">
                   <div className="flex flex-col items-center">
                     <div className="relative mb-2">
-                      <div className="text-lg font-bold text-yellow-400 mb-2">{bar.value}</div>
-                      <div className="w-20 bg-gradient-to-t from-yellow-400 to-green-400 rounded-t-lg" style={{
+                      <div className="text-sm sm:text-lg font-bold text-yellow-400 mb-1 sm:mb-2">{bar.value}</div>
+                      <div className="w-12 sm:w-20 bg-gradient-to-t from-yellow-400 to-green-400 rounded-t-lg" style={{
                     height: `${parseInt(bar.height) * 2}px`
                   }}></div>
                     </div>
-                    <div className="text-gray-200 text-sm">{bar.label}</div>
+                    <div className="text-gray-200 text-xs sm:text-sm">{bar.label}</div>
                   </div>
                 </AnimatedSection>)}
             </div>
@@ -877,7 +894,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 10: Financial Projections */}
-      <section ref={el => slideRefs.current[9] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
+      <section ref={el => slideRefs.current[9] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -962,7 +979,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 11: The Ask */}
-      <section ref={el => slideRefs.current[10] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
+      <section ref={el => slideRefs.current[10] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -1066,7 +1083,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 12: Timeline */}
-      <section ref={el => slideRefs.current[11] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
+      <section ref={el => slideRefs.current[11] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -1144,7 +1161,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 13: Final CTA */}
-      <section ref={el => slideRefs.current[12] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
+      <section ref={el => slideRefs.current[12] = el} className="min-h-screen h-screen md:min-h-screen relative flex items-center justify-center px-4 sm:px-8 md:px-16 overflow-hidden snap-start slide-section">
         <div className="max-w-7xl mx-auto text-center">
           <AnimatedSection animation="fade-up">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-2">
@@ -1207,7 +1224,7 @@ const PitchDeck = () => {
           <AnimatedSection delay={300}>
             <p className="text-gray-400 text-sm mt-12 max-w-3xl mx-auto">
               Investment opportunities involve risk. Past performance does not guarantee future results.
-              Available to accredited investors only. Securities offered through [Broker-Dealer].
+    
             </p>
           </AnimatedSection>
         </div>

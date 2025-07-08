@@ -164,6 +164,61 @@ All colors MUST be HSL.
   }
 }
 
+/* Pitch Deck Styles */
+.pitch-deck-container {
+  scroll-snap-type: y mandatory;
+  scroll-behavior: smooth;
+  height: 100vh;
+  overflow-y: auto;
+}
+
+.slide-section {
+  scroll-snap-align: start;
+  scroll-snap-stop: always;
+  position: relative;
+  /* Add spacing between slides */
+  margin-bottom: 2rem;
+}
+
+/* Remove margin from last slide */
+.slide-section:last-child {
+  margin-bottom: 0;
+}
+
+/* Mobile-specific viewport height fix */
+@media (max-width: 768px) {
+  .slide-section {
+    height: 100vh;
+    height: 100dvh; /* Dynamic viewport height for mobile */
+    min-height: -webkit-fill-available;
+    max-height: 100vh;
+    overflow-y: auto;
+    padding-top: 1rem;
+    padding-bottom: 1rem;
+    margin-bottom: 1rem;
+  }
+  
+  /* Ensure content fits within mobile viewport */
+  .slide-section > div {
+    max-height: 100%;
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+  }
+  
+  /* Adjust font sizes for better mobile readability */
+  .slide-section h1 {
+    font-size: clamp(1.75rem, 8vw, 3rem);
+  }
+  
+  .slide-section h2 {
+    font-size: clamp(1.25rem, 6vw, 2rem);
+  }
+  
+  .slide-section p {
+    font-size: clamp(0.875rem, 3vw, 1.125rem);
+  }
+}
+
 /* Reduced motion preferences */
 @media (prefers-reduced-motion: reduce) {
   *,
@@ -184,11 +239,19 @@ All colors MUST be HSL.
 
 /* Print styles for PDF export */
 @media print {
+  /* Page setup */
+  @page {
+    size: A4;
+    margin: 1.5cm;
+  }
+  
   /* Hide navigation and controls */
   nav,
   .fixed,
   [aria-label="Go to"],
-  [aria-label="Download PDF"] {
+  [aria-label="Download PDF"],
+  .slide-indicator,
+  .swipe-indicator {
     display: none !important;
   }
   
@@ -197,20 +260,66 @@ All colors MUST be HSL.
     margin: 0;
     padding: 0;
     background: white !important;
+    color: black !important;
+    font-size: 12pt;
+  }
+  
+  /* Pitch deck container */
+  .pitch-deck-container {
+    height: auto !important;
+    overflow: visible !important;
   }
   
   /* Each section on its own page */
-  section {
+  .slide-section {
     page-break-after: always;
     page-break-inside: avoid;
+    height: auto !important;
     min-height: 100vh !important;
+    max-height: none !important;
+    margin: 0 !important;
+    padding: 2cm 1.5cm !important;
     background: white !important;
     color: black !important;
-    padding: 2cm !important;
-    box-sizing: border-box;
+    box-sizing: border-box !important;
+    overflow: visible !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
+  
+  /* Last slide no page break */
+  .slide-section:last-child {
+    page-break-after: auto;
+  }
+  
+  /* Typography adjustments */
+  h1 {
+    font-size: 28pt !important;
+    color: #1a1a1a !important;
+    margin-bottom: 16pt !important;
+  }
+  
+  h2 {
+    font-size: 20pt !important;
+    color: #2a2a2a !important;
+    margin-bottom: 12pt !important;
+  }
+  
+  h3 {
+    font-size: 16pt !important;
+    color: #3a3a3a !important;
+    margin-bottom: 8pt !important;
+  }
+  
+  p, li {
+    font-size: 11pt !important;
+    line-height: 1.6 !important;
+    color: #4a4a4a !important;
   }
   
   /* Improve text readability */
+  .text-gray-200,
   .text-gray-300,
   .text-gray-400,
   .text-gray-500 {
@@ -221,24 +330,89 @@ All colors MUST be HSL.
     color: black !important;
   }
   
-  /* Ensure cards are visible */
+  /* Card styles for print */
   .bg-white\/5,
   .bg-gray-900,
-  .bg-gradient-to-br {
+  .bg-slate-900,
+  .bg-slate-950,
+  .bg-slate-800,
+  .bg-gradient-to-br,
+  [class*="bg-gradient"] {
     background: white !important;
     border: 1px solid #ddd !important;
+    box-shadow: none !important;
   }
   
   /* Make gradient text readable */
-  .bg-gradient-to-r {
+  .bg-gradient-to-r,
+  .bg-clip-text,
+  .text-transparent {
     background: none !important;
+    -webkit-text-fill-color: initial !important;
     color: #1a1a1a !important;
     font-weight: bold !important;
   }
   
-  /* Remove animations */
+  /* Color replacements */
+  .text-yellow-400,
+  .text-yellow-500,
+  .text-yellow-600 {
+    color: #d97706 !important; /* Orange for better print contrast */
+  }
+  
+  .text-green-400,
+  .text-green-500,
+  .text-green-600 {
+    color: #059669 !important; /* Darker green */
+  }
+  
+  .text-red-400,
+  .text-red-500 {
+    color: #dc2626 !important; /* Darker red */
+  }
+  
+  /* Grid adjustments */
+  .grid {
+    gap: 0.5cm !important;
+  }
+  
+  /* Remove animations and transitions */
   * {
     animation: none !important;
     transition: none !important;
+  }
+  
+  /* Charts and metrics */
+  .slide-section .grid > div {
+    break-inside: avoid;
+  }
+  
+  /* Growth chart specific */
+  .h-48, .h-64 {
+    height: 200px !important;
+  }
+  
+  /* Timeline adjustments */
+  .absolute.left-1\/2 {
+    display: none !important; /* Hide timeline line */
+  }
+  
+  /* Ensure images and icons are visible */
+  svg {
+    color: #4a4a4a !important;
+  }
+  
+  /* Links as plain text */
+  a {
+    text-decoration: none !important;
+    color: inherit !important;
+  }
+  
+  /* Button styles */
+  .rounded-full {
+    border-radius: 4px !important;
+    background: #f3f4f6 !important;
+    color: black !important;
+    border: 1px solid #d1d5db !important;
   }
 }
