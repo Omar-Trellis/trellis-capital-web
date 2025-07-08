@@ -11,6 +11,7 @@ import {
   DialogTrigger,
 } from "@/components/ui/dialog";
 import InvestorOpportunity from '@/pages/InvestorOpportunity';
+import { teamMembers } from '@/data/teamData';
 
 const PitchDeck = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -568,23 +569,6 @@ const PitchDeck = () => {
     value: '5',
     label: 'Active Projects',
     subtext: 'Currently executing'
-  }];
-  const teamMembers = [{
-    role: 'The Visionary',
-    name: 'President | Pro Athlete',
-    bio: ['NFL & NHL professional career', 'Direct athlete investor network', 'Strategic capital partnerships', 'Opens doors others can\'t']
-  }, {
-    role: 'The Builder',
-    name: 'Juan Del Sol | CREO',
-    bio: ['Licensed Florida contractor', 'Deep subcontractor network', 'Cost control expertise', 'Quality & speed guaranteed']
-  }, {
-    role: 'The Brain',
-    name: 'Jon Paz | Underwriting',
-    bio: ['20+ years underwriting', '100+ property portfolio', 'AI-enhanced analysis', 'Spots winners others miss']
-  }, {
-    role: 'The Executor',
-    name: 'Rob | COO',
-    bio: ['6 personal properties', '$900K → $3.5M ARV achieved', 'Operations optimization', 'Makes it happen daily']
   }];
   return <div ref={containerRef} className="min-h-screen bg-gray-900 relative">
       {/* Slide Navigation Dots */}
@@ -1145,17 +1129,23 @@ const PitchDeck = () => {
             </p>
           </AnimatedSection>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
             {teamMembers.map((member, index) => <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up-scale">
-                <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6 h-full hover:border-yellow-400/50 transition-all duration-300 group">
-                  <div className="text-lg font-bold text-yellow-400 mb-1">{member.role}</div>
-                  <div className="text-sm text-green-400 mb-4">{member.name}</div>
-                  <ul className="space-y-2">
-                    {member.bio.map((item, i) => <li key={i} className="text-gray-200 text-sm flex items-start">
-                        <ArrowRight className="w-3 h-3 text-yellow-400 mt-0.5 mr-2 flex-shrink-0" />
-                        <span>{item}</span>
-                      </li>)}
-                  </ul>
+                <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6 h-full hover:border-yellow-400/50 transition-all duration-300 group relative overflow-hidden">
+                  <div className="relative z-10">
+                    <div className="w-20 h-20 mx-auto mb-4 rounded-full overflow-hidden bg-gradient-to-br from-yellow-400/20 to-green-400/20 flex items-center justify-center">
+                      <img 
+                        src={member.image} 
+                        alt={member.name}
+                        className="w-full h-full object-cover"
+                        loading="lazy"
+                      />
+                    </div>
+                    <div className="text-lg font-bold text-yellow-400 mb-1 text-center">{member.role}</div>
+                    <div className="text-sm font-semibold text-white mb-2 text-center">{member.name}</div>
+                    <div className="text-xs text-green-400 mb-3 text-center">{member.expertise}</div>
+                    <p className="text-gray-200 text-sm text-center leading-relaxed">{member.bio}</p>
+                  </div>
                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 to-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                 </Card>
               </AnimatedSection>)}
