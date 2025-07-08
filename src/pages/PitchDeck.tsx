@@ -5,29 +5,52 @@ import { useIntersectionObserver } from '@/hooks/useIntersectionObserver';
 import { ArrowRight, TrendingUp, Shield, Users, Target, Award, ChevronRight, Clock, DollarSign, Download } from 'lucide-react';
 import { Card } from '@/components/ui/card';
 import { cn } from '@/lib/utils';
-
 const PitchDeck = () => {
-
   const [currentSlide, setCurrentSlide] = useState(0);
   const slideRefs = useRef<(HTMLElement | null)[]>([]);
   const containerRef = useRef<HTMLDivElement>(null);
 
   // Slide data for navigation
-  const slides = [
-    { id: 'hero', title: 'The $3.5M Question' },
-    { id: 'problem', title: 'The Problem' },
-    { id: 'solution', title: 'The Solution' },
-    { id: 'market', title: 'Market Opportunity' },
-    { id: 'numbers', title: 'The Numbers' },
-    { id: 'traction', title: 'Traction' },
-    { id: 'edge', title: 'Competitive Edge' },
-    { id: 'team', title: 'The Team' },
-    { id: 'growth', title: 'Growth Strategy' },
-    { id: 'projections', title: 'Financial Projections' },
-    { id: 'ask', title: 'The Ask' },
-    { id: 'timeline', title: 'Timeline' },
-    { id: 'cta', title: 'Final CTA' }
-  ];
+  const slides = [{
+    id: 'hero',
+    title: 'The $3.5M Question'
+  }, {
+    id: 'problem',
+    title: 'The Problem'
+  }, {
+    id: 'solution',
+    title: 'The Solution'
+  }, {
+    id: 'market',
+    title: 'Market Opportunity'
+  }, {
+    id: 'numbers',
+    title: 'The Numbers'
+  }, {
+    id: 'traction',
+    title: 'Traction'
+  }, {
+    id: 'edge',
+    title: 'Competitive Edge'
+  }, {
+    id: 'team',
+    title: 'The Team'
+  }, {
+    id: 'growth',
+    title: 'Growth Strategy'
+  }, {
+    id: 'projections',
+    title: 'Financial Projections'
+  }, {
+    id: 'ask',
+    title: 'The Ask'
+  }, {
+    id: 'timeline',
+    title: 'Timeline'
+  }, {
+    id: 'cta',
+    title: 'Final CTA'
+  }];
 
   // Handle slide navigation
   const scrollToSlide = (index: number) => {
@@ -44,13 +67,14 @@ const PitchDeck = () => {
     const slideViewTimes = new Map<number, number>();
     let lastSlide = 0;
     let slideStartTime = Date.now();
-
     const handleScroll = () => {
       const scrollPosition = window.scrollY + window.innerHeight / 3;
-      
       slideRefs.current.forEach((ref, index) => {
         if (ref) {
-          const { offsetTop, offsetHeight } = ref;
+          const {
+            offsetTop,
+            offsetHeight
+          } = ref;
           if (scrollPosition >= offsetTop && scrollPosition < offsetTop + offsetHeight) {
             // Track slide change
             if (index !== lastSlide) {
@@ -58,36 +82,34 @@ const PitchDeck = () => {
               const timeSpent = Date.now() - slideStartTime;
               const previousTime = slideViewTimes.get(lastSlide) || 0;
               slideViewTimes.set(lastSlide, previousTime + timeSpent);
-              
+
               // Log analytics (in production, send to analytics service)
               console.log(`Slide ${slides[lastSlide].title}: ${Math.round(timeSpent / 1000)}s`);
-              
+
               // Update current slide
               lastSlide = index;
               slideStartTime = Date.now();
-              
+
               // Track slide view
               console.log(`Viewing slide: ${slides[index].title}`);
             }
-            
             setCurrentSlide(index);
           }
         }
       });
     };
-
     window.addEventListener('scroll', handleScroll);
     handleScroll(); // Call once to set initial position
 
     // Clean up and log final analytics on unmount
     return () => {
       window.removeEventListener('scroll', handleScroll);
-      
+
       // Log total time on current slide
       const timeSpent = Date.now() - slideStartTime;
       const previousTime = slideViewTimes.get(lastSlide) || 0;
       slideViewTimes.set(lastSlide, previousTime + timeSpent);
-      
+
       // Log session summary
       console.log('Pitch Deck Session Summary:');
       slideViewTimes.forEach((time, slideIndex) => {
@@ -126,7 +148,6 @@ const PitchDeck = () => {
           break;
       }
     };
-
     window.addEventListener('keydown', handleKeyDown);
     return () => window.removeEventListener('keydown', handleKeyDown);
   }, [currentSlide, slides.length]);
@@ -135,26 +156,21 @@ const PitchDeck = () => {
   useEffect(() => {
     let touchStartY = 0;
     let touchEndY = 0;
-
     const handleTouchStart = (e: TouchEvent) => {
       touchStartY = e.changedTouches[0].screenY;
     };
-
     const handleTouchEnd = (e: TouchEvent) => {
       touchEndY = e.changedTouches[0].screenY;
       handleSwipeGesture();
     };
-
     const handleSwipeGesture = () => {
       const swipeThreshold = 50;
-      
       if (touchStartY - touchEndY > swipeThreshold) {
         // Swipe up - go to next slide
         if (currentSlide < slides.length - 1) {
           scrollToSlide(currentSlide + 1);
         }
       }
-      
       if (touchEndY - touchStartY > swipeThreshold) {
         // Swipe down - go to previous slide
         if (currentSlide > 0) {
@@ -162,13 +178,15 @@ const PitchDeck = () => {
         }
       }
     };
-
     const container = containerRef.current;
     if (container) {
-      container.addEventListener('touchstart', handleTouchStart, { passive: true });
-      container.addEventListener('touchend', handleTouchEnd, { passive: true });
+      container.addEventListener('touchstart', handleTouchStart, {
+        passive: true
+      });
+      container.addEventListener('touchend', handleTouchEnd, {
+        passive: true
+      });
     }
-
     return () => {
       if (container) {
         container.removeEventListener('touchstart', handleTouchStart);
@@ -185,107 +203,70 @@ const PitchDeck = () => {
   };
 
   // Metric data
-  const heroMetrics = [
-    { value: '72%', label: 'Cleveland ROI' },
-    { value: '$80K', label: 'Avg Profit/Flip' },
-    { value: '3X', label: 'Tax Multiplier' }
-  ];
-
-  const companyMetrics = [
-    { value: '$3.5M', label: 'ARV Achieved', subtext: 'From $900K invested' },
-    { value: '100+', label: 'Properties Managed', subtext: 'Institutional experience' },
-    { value: '20+', label: 'Years Combined', subtext: 'Market cycles mastered' },
-    { value: '5', label: 'Active Projects', subtext: 'Currently executing' }
-  ];
-
-  const teamMembers = [
-    {
-      role: 'The Visionary',
-      name: 'President | Pro Athlete',
-      bio: [
-        'NFL & NHL professional career',
-        'Direct athlete investor network',
-        'Strategic capital partnerships',
-        'Opens doors others can\'t'
-      ]
-    },
-    {
-      role: 'The Builder',
-      name: 'Juan Del Sol | CREO',
-      bio: [
-        'Licensed Florida contractor',
-        'Deep subcontractor network',
-        'Cost control expertise',
-        'Quality & speed guaranteed'
-      ]
-    },
-    {
-      role: 'The Brain',
-      name: 'Jon Paz | Underwriting',
-      bio: [
-        '20+ years underwriting',
-        '100+ property portfolio',
-        'AI-enhanced analysis',
-        'Spots winners others miss'
-      ]
-    },
-    {
-      role: 'The Executor',
-      name: 'Rob | COO',
-      bio: [
-        '6 personal properties',
-        '$900K → $3.5M ARV achieved',
-        'Operations optimization',
-        'Makes it happen daily'
-      ]
-    }
-  ];
-
-  return (
-    <div ref={containerRef} className="min-h-screen bg-gray-900 relative">
+  const heroMetrics = [{
+    value: '72%',
+    label: 'Cleveland ROI'
+  }, {
+    value: '$80K',
+    label: 'Avg Profit/Flip'
+  }, {
+    value: '3X',
+    label: 'Tax Multiplier'
+  }];
+  const companyMetrics = [{
+    value: '$3.5M',
+    label: 'ARV Achieved',
+    subtext: 'From $900K invested'
+  }, {
+    value: '100+',
+    label: 'Properties Managed',
+    subtext: 'Institutional experience'
+  }, {
+    value: '20+',
+    label: 'Years Combined',
+    subtext: 'Market cycles mastered'
+  }, {
+    value: '5',
+    label: 'Active Projects',
+    subtext: 'Currently executing'
+  }];
+  const teamMembers = [{
+    role: 'The Visionary',
+    name: 'President | Pro Athlete',
+    bio: ['NFL & NHL professional career', 'Direct athlete investor network', 'Strategic capital partnerships', 'Opens doors others can\'t']
+  }, {
+    role: 'The Builder',
+    name: 'Juan Del Sol | CREO',
+    bio: ['Licensed Florida contractor', 'Deep subcontractor network', 'Cost control expertise', 'Quality & speed guaranteed']
+  }, {
+    role: 'The Brain',
+    name: 'Jon Paz | Underwriting',
+    bio: ['20+ years underwriting', '100+ property portfolio', 'AI-enhanced analysis', 'Spots winners others miss']
+  }, {
+    role: 'The Executor',
+    name: 'Rob | COO',
+    bio: ['6 personal properties', '$900K → $3.5M ARV achieved', 'Operations optimization', 'Makes it happen daily']
+  }];
+  return <div ref={containerRef} className="min-h-screen bg-gray-900 relative">
       {/* Slide Navigation Dots */}
       <nav className="fixed right-6 top-1/2 -translate-y-1/2 z-50 hidden lg:block">
         <ul className="space-y-3">
-          {slides.map((slide, index) => (
-            <li key={slide.id}>
-              <button
-                onClick={() => scrollToSlide(index)}
-                className={cn(
-                  "group relative flex items-center justify-end",
-                  "transition-all duration-300"
-                )}
-                aria-label={`Go to ${slide.title}`}
-              >
-                <span
-                  className={cn(
-                    "absolute right-8 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap",
-                    "opacity-0 group-hover:opacity-100 transition-opacity duration-200",
-                    "bg-gray-800 text-white shadow-lg",
-                    currentSlide === index && "opacity-100"
-                  )}
-                >
+          {slides.map((slide, index) => <li key={slide.id}>
+              <button onClick={() => scrollToSlide(index)} className={cn("group relative flex items-center justify-end", "transition-all duration-300")} aria-label={`Go to ${slide.title}`}>
+                <span className={cn("absolute right-8 px-3 py-1 rounded-full text-sm font-medium whitespace-nowrap", "opacity-0 group-hover:opacity-100 transition-opacity duration-200", "bg-gray-800 text-white shadow-lg", currentSlide === index && "opacity-100")}>
                   {slide.title}
                 </span>
-                <span
-                  className={cn(
-                    "block w-3 h-3 rounded-full transition-all duration-300",
-                    currentSlide === index
-                      ? "bg-yellow-400 scale-125 shadow-lg shadow-yellow-400/50"
-                      : "bg-gray-600 hover:bg-gray-400"
-                  )}
-                />
+                <span className={cn("block w-3 h-3 rounded-full transition-all duration-300", currentSlide === index ? "bg-yellow-400 scale-125 shadow-lg shadow-yellow-400/50" : "bg-gray-600 hover:bg-gray-400")} />
               </button>
-            </li>
-          ))}
+            </li>)}
         </ul>
       </nav>
 
       {/* Progress Bar */}
       <div className="fixed top-0 left-0 right-0 z-50 h-1 bg-gray-800">
-        <div
-          className="h-full bg-gradient-to-r from-yellow-400 to-green-400 transition-all duration-300"
-          style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
-        />
+        <div className="h-full bg-gradient-to-r from-yellow-400 to-green-400 transition-all duration-300" style={{
+        width: `${(currentSlide + 1) / slides.length * 100}%`
+      }} />
       </div>
 
       {/* Mobile Slide Indicator */}
@@ -299,11 +280,7 @@ const PitchDeck = () => {
 
       {/* Floating Action Buttons */}
       <div className="fixed bottom-8 right-8 z-50 flex flex-col gap-4">
-        <button
-          onClick={handleDownloadPDF}
-          className="group relative bg-gray-900 hover:bg-gray-800 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300"
-          aria-label="Download PDF"
-        >
+        <button onClick={handleDownloadPDF} className="group relative bg-gray-900 hover:bg-gray-800 text-white p-4 rounded-full shadow-lg hover:shadow-xl transition-all duration-300" aria-label="Download PDF">
           <Download className="w-6 h-6" />
           <span className="absolute right-full mr-3 px-3 py-1 bg-gray-900 text-white text-sm rounded-lg whitespace-nowrap opacity-0 group-hover:opacity-100 transition-opacity duration-200">
             Download PDF
@@ -311,14 +288,13 @@ const PitchDeck = () => {
         </button>
       </div>
       {/* Slide 1: Hero */}
-      <section 
-        ref={(el) => slideRefs.current[0] = el} 
-        className="min-h-screen relative flex items-center justify-center px-8 md:px-16 overflow-hidden snap-start"
-      >
+      <section ref={el => slideRefs.current[0] = el} className="min-h-screen relative flex items-center justify-center px-8 md:px-16 overflow-hidden snap-start">
         {/* Animated background gradient */}
         <div className="absolute inset-0 opacity-30">
           <div className="absolute inset-0 bg-gradient-to-br from-yellow-400/20 via-transparent to-green-400/20 animate-pulse"></div>
-          <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-transparent to-purple-500/10 animate-pulse" style={{ animationDelay: '2s' }}></div>
+          <div className="absolute inset-0 bg-gradient-to-tr from-blue-500/10 via-transparent to-purple-500/10 animate-pulse" style={{
+          animationDelay: '2s'
+        }}></div>
         </div>
 
         <AnimatedSection animation="fade-up" className="relative z-10 text-center max-w-7xl mx-auto">
@@ -330,16 +306,14 @@ const PitchDeck = () => {
           </p>
 
           <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            {heroMetrics.map((metric, index) => (
-              <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up-scale">
-                <Card className="bg-gradient-to-br from-yellow-400/10 to-green-400/10 border-yellow-400/20 p-8 hover:scale-105 transition-transform">
+            {heroMetrics.map((metric, index) => <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up-scale">
+                <Card className="bg-gradient-to-br from-yellow-400/10 to-green-400/10 border-yellow-400/20 p-8 hover:scale-105 transition-transform bg-slate-900">
                   <div className="text-4xl md:text-5xl font-bold bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent mb-2">
                     {metric.value}
                   </div>
                   <div className="text-gray-300 text-lg">{metric.label}</div>
                 </Card>
-              </AnimatedSection>
-            ))}
+              </AnimatedSection>)}
           </div>
 
           <AnimatedSection delay={400}>
@@ -352,11 +326,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 2: The Problem */}
-      <section 
-        id="problem" 
-        ref={(el) => slideRefs.current[1] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section id="problem" ref={el => slideRefs.current[1] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -430,10 +400,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 3: The Solution */}
-      <section 
-        ref={(el) => slideRefs.current[2] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section ref={el => slideRefs.current[2] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -518,10 +485,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 4: Market Opportunity */}
-      <section 
-        ref={(el) => slideRefs.current[3] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section ref={el => slideRefs.current[3] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -599,10 +563,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 5: The Numbers */}
-      <section 
-        ref={(el) => slideRefs.current[4] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section ref={el => slideRefs.current[4] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -673,10 +634,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 6: Traction */}
-      <section 
-        ref={(el) => slideRefs.current[5] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section ref={el => slideRefs.current[5] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -685,8 +643,7 @@ const PitchDeck = () => {
           </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
-            {companyMetrics.map((metric, index) => (
-              <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up-scale">
+            {companyMetrics.map((metric, index) => <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up-scale">
                 <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-8 text-center hover:border-yellow-400/50 transition-colors">
                   <div className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent mb-2">
                     {metric.value}
@@ -694,8 +651,7 @@ const PitchDeck = () => {
                   <div className="text-gray-300 font-medium mb-2">{metric.label}</div>
                   <p className="text-sm text-gray-400">{metric.subtext}</p>
                 </Card>
-              </AnimatedSection>
-            ))}
+              </AnimatedSection>)}
           </div>
 
           <AnimatedSection delay={500}>
@@ -708,10 +664,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 7: Competitive Edge */}
-      <section 
-        ref={(el) => slideRefs.current[6] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section ref={el => slideRefs.current[6] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -780,10 +733,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 8: Team */}
-      <section 
-        ref={(el) => slideRefs.current[7] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section ref={el => slideRefs.current[7] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -795,23 +745,19 @@ const PitchDeck = () => {
           </AnimatedSection>
 
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            {teamMembers.map((member, index) => (
-              <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up-scale">
+            {teamMembers.map((member, index) => <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up-scale">
                 <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-6 h-full hover:border-yellow-400/50 transition-all duration-300 group">
                   <div className="text-lg font-bold text-yellow-400 mb-1">{member.role}</div>
                   <div className="text-sm text-green-400 mb-4">{member.name}</div>
                   <ul className="space-y-2">
-                    {member.bio.map((item, i) => (
-                      <li key={i} className="text-gray-200 text-sm flex items-start">
+                    {member.bio.map((item, i) => <li key={i} className="text-gray-200 text-sm flex items-start">
                         <ArrowRight className="w-3 h-3 text-yellow-400 mt-0.5 mr-2 flex-shrink-0" />
                         <span>{item}</span>
-                      </li>
-                    ))}
+                      </li>)}
                   </ul>
                   <div className="absolute bottom-0 left-0 right-0 h-1 bg-gradient-to-r from-yellow-400 to-green-400 transform scale-x-0 group-hover:scale-x-100 transition-transform duration-300"></div>
                 </Card>
-              </AnimatedSection>
-            ))}
+              </AnimatedSection>)}
           </div>
 
           <AnimatedSection delay={500}>
@@ -826,10 +772,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 9: Growth Strategy */}
-      <section 
-        ref={(el) => slideRefs.current[8] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section ref={el => slideRefs.current[8] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -841,25 +784,33 @@ const PitchDeck = () => {
           <Card className="bg-white/5 backdrop-blur-sm border-white/10 p-8 mb-12">
             <h2 className="text-2xl font-bold text-center text-white mb-8">36-Month Growth Trajectory</h2>
             <div className="flex items-end justify-around h-64 px-4">
-              {[
-                { label: 'Start', value: '$500K', height: '30%' },
-                { label: 'Year 1', value: '$1.2M', height: '50%' },
-                { label: 'Year 2', value: '$2.8M', height: '75%' },
-                { label: 'Year 3', value: '$5M+', height: '100%' }
-              ].map((bar, index) => (
-                <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up">
+              {[{
+              label: 'Start',
+              value: '$500K',
+              height: '30%'
+            }, {
+              label: 'Year 1',
+              value: '$1.2M',
+              height: '50%'
+            }, {
+              label: 'Year 2',
+              value: '$2.8M',
+              height: '75%'
+            }, {
+              label: 'Year 3',
+              value: '$5M+',
+              height: '100%'
+            }].map((bar, index) => <AnimatedSection key={index} delay={100 * (index + 1)} animation="fade-up">
                   <div className="flex flex-col items-center">
                     <div className="relative mb-2">
                       <div className="text-lg font-bold text-yellow-400 mb-2">{bar.value}</div>
-                      <div
-                        className="w-20 bg-gradient-to-t from-yellow-400 to-green-400 rounded-t-lg"
-                        style={{ height: `${parseInt(bar.height) * 2}px` }}
-                      ></div>
+                      <div className="w-20 bg-gradient-to-t from-yellow-400 to-green-400 rounded-t-lg" style={{
+                    height: `${parseInt(bar.height) * 2}px`
+                  }}></div>
                     </div>
                     <div className="text-gray-200 text-sm">{bar.label}</div>
                   </div>
-                </AnimatedSection>
-              ))}
+                </AnimatedSection>)}
             </div>
           </Card>
 
@@ -926,10 +877,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 10: Financial Projections */}
-      <section 
-        ref={(el) => slideRefs.current[9] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section ref={el => slideRefs.current[9] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-4 text-center">
@@ -1014,10 +962,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 11: The Ask */}
-      <section 
-        ref={(el) => slideRefs.current[10] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section ref={el => slideRefs.current[10] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -1110,10 +1055,7 @@ const PitchDeck = () => {
 
             <AnimatedSection delay={600}>
               <div className="text-center mt-12">
-                <Link
-                  to="/contact"
-                  className="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-500 to-green-500 hover:from-yellow-600 hover:to-green-600 text-black font-bold px-12 py-5 rounded-full text-xl transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-500/25 group"
-                >
+                <Link to="/contact" className="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-500 to-green-500 hover:from-yellow-600 hover:to-green-600 text-black font-bold px-12 py-5 rounded-full text-xl transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-500/25 group">
                   Schedule Your Private Discussion
                   <ArrowRight className="w-6 h-6 group-hover:translate-x-1 transition-transform" />
                 </Link>
@@ -1124,10 +1066,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 12: Timeline */}
-      <section 
-        ref={(el) => slideRefs.current[11] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section ref={el => slideRefs.current[11] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto">
           <AnimatedSection animation="fade-up">
             <h1 className="text-4xl md:text-6xl lg:text-7xl font-bold text-white mb-12 text-center">
@@ -1205,10 +1144,7 @@ const PitchDeck = () => {
       </section>
 
       {/* Slide 13: Final CTA */}
-      <section 
-        ref={(el) => slideRefs.current[12] = el}
-        className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start"
-      >
+      <section ref={el => slideRefs.current[12] = el} className="min-h-screen flex items-center justify-center px-8 md:px-16 snap-start">
         <div className="max-w-7xl mx-auto text-center">
           <AnimatedSection animation="fade-up">
             <h1 className="text-5xl md:text-7xl lg:text-8xl font-black text-white mb-2">
@@ -1261,10 +1197,7 @@ const PitchDeck = () => {
               <p className="text-xl text-gray-300 mb-8">
                 This isn't just an investment. It's your entry into a new way of building wealth.
               </p>
-              <Link
-                to="/contact"
-                className="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-500 to-green-500 hover:from-yellow-600 hover:to-green-600 text-black font-bold px-16 py-6 rounded-full text-2xl transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-500/25 group"
-              >
+              <Link to="/contact" className="inline-flex items-center gap-3 bg-gradient-to-r from-yellow-500 to-green-500 hover:from-yellow-600 hover:to-green-600 text-black font-bold px-16 py-6 rounded-full text-2xl transition-all duration-300 hover:shadow-2xl hover:shadow-yellow-500/25 group">
                 Claim Your Position
                 <ArrowRight className="w-7 h-7 group-hover:translate-x-2 transition-transform" />
               </Link>
@@ -1279,8 +1212,6 @@ const PitchDeck = () => {
           </AnimatedSection>
         </div>
       </section>
-    </div>
-  );
+    </div>;
 };
-
-export default PitchDeck; 
+export default PitchDeck;
