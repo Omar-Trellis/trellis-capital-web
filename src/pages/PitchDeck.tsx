@@ -175,7 +175,7 @@ const PitchDeck = () => {
         container.removeEventListener('touchend', handleTouchEnd);
       }
     };
-  }, [currentSlide, slides.length]);
+  }, [currentSlide, slides.length, scrollToSlide]);
 
   // Handle PDF download
   const handleDownloadPDF = () => {
@@ -286,6 +286,15 @@ const PitchDeck = () => {
           className="h-full bg-gradient-to-r from-yellow-400 to-green-400 transition-all duration-300"
           style={{ width: `${((currentSlide + 1) / slides.length) * 100}%` }}
         />
+      </div>
+
+      {/* Mobile Slide Indicator */}
+      <div className="fixed bottom-8 left-1/2 transform -translate-x-1/2 z-50 lg:hidden">
+        <div className="flex items-center gap-2 bg-gray-900/90 backdrop-blur-sm px-4 py-2 rounded-full">
+          <span className="text-sm text-gray-400">Slide</span>
+          <span className="text-sm font-bold text-yellow-400">{currentSlide + 1}</span>
+          <span className="text-sm text-gray-400">of {slides.length}</span>
+        </div>
       </div>
 
       {/* Floating Action Buttons */}

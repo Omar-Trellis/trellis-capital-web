@@ -103,3 +103,26 @@ This is a React SPA for Trellis Capital Group built with Vite, TypeScript, and T
   - Animate only on first view
   - Display final values immediately if already animated
   - Don't reset when scrolling back to the section
+
+### Pitch Deck Enhancements (2025-01-08)
+- **Navigation Improvements:**
+  - Added fixed slide dots navigation on right side (desktop only)
+  - Implemented keyboard navigation (Arrow keys, Page Up/Down, Home, End)
+  - Added smooth scrolling between sections with scroll-snap support
+  - Created progress bar showing current slide position
+- **Mobile Experience:**
+  - Added touch gesture support (swipe up/down to navigate)
+  - Created mobile slide indicator showing current position
+  - Optimized slide navigation for touch devices
+- **PDF Export:**
+  - Added floating download button with print functionality
+  - Implemented print-specific CSS for clean PDF output
+  - Optimized print layout with page breaks and improved contrast
+- **Analytics Tracking:**
+  - Implemented slide view tracking with time-on-slide metrics
+  - Console logging for development (ready for analytics service integration)
+  - Session summary on page exit
+- **Accessibility:**
+  - Added ARIA labels for all navigation elements
+  - Keyboard navigation fully accessible
+  - Respects prefers-reduced-motion preferences
