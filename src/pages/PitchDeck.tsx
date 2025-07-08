@@ -970,7 +970,7 @@ const PitchDeck = () => {
             </h1>
           </AnimatedSection>
 
-          <Card className="bg-gradient-to-br from-yellow-400/20 to-green-400/20 border-white/30 p-12">
+          <Card className="bg-gradient-to-br from-yellow-400/20 to-green-400/20 border-white/30 p-12 bg-slate-600">
             <h2 className="text-4xl font-bold text-center text-white mb-8">
               Seeking Strategic Partners
             </h2>
