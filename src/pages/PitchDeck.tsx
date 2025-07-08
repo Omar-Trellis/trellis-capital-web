@@ -948,7 +948,7 @@ const PitchDeck = () => {
             </div>
 
             <AnimatedSection delay={300}>
-              <Card className="mt-12 bg-gradient-to-r from-yellow-400/20 to-green-400/20 border-white/30 p-8 text-center">
+              <Card className="mt-12 bg-gradient-to-r from-yellow-400/20 to-green-400/20 border-white/30 p-8 text-center bg-slate-900">
                 <h2 className="text-4xl font-bold bg-gradient-to-r from-yellow-400 to-green-400 bg-clip-text text-transparent mb-2">
                   Year 1 Total Investor Value: $351,520
                 </h2>
